@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@fontsource/ubuntu": "^5.2.8",
+    "react-router-dom": "^7.9.4"
+  }
+}
