@@ -1,9 +1,11 @@
 import {Grid, Box, Divider, Typography, useTheme} from "@mui/material";
 import ProductCard from "./ProductCard";
 
-export default function ProductGrid({ product = [], title = "Special for you"}) {
+export default function ProductGrid({ products = [], title = "Special for you"}) {
     const theme = useTheme();
-
+    const key_for_bershka1 = "p1";
+    const key_for_bershka2 = "a4o";
+    console.log(products);
     return (
         <Box>
             <Typography variant="h4" align={"center"} sx={{
@@ -21,19 +23,27 @@ export default function ProductGrid({ product = [], title = "Special for you"}) 
                 maxWidth: 1500,
                 margin: "0 auto",
             }}>
-                {product && product.length > 0 ? (
-                    product.map((item) => (
-                        <Grid item xs={12} sm={4} md={3} key={product.id}>
-                            <ProductCard
-                                img={item.img}
-                                name={item.name}
-                                price={item.price}
-                                size={item.size}
-                                isFavourite={item.isFavourite}
-                                brandName={item.brandName}
-                            />
-                        </Grid>
-                    ))
+                {products && products.length > 0 ? (
+                    products.map((product) => {
+                        let found = product.photos?.find(p => p[key_for_bershka1]);
+                        if (!found || !Object.values(found)[0]) {
+                            found = product.photos?.find(p => p[key_for_bershka2]);
+                        }
+                        const imgUrl = found ? Object.values(found)[0] : "";
+                        console.log("imgUrl: " + imgUrl);
+                        return (
+                            <Grid item xs={12} sm={4} md={3} key={product.id || product.name_en}>
+                                <ProductCard
+                                    img={imgUrl}
+                                    name={product.name}
+                                    price={product.price}
+                                    size={product.size}
+                                    isFavourite={true}
+                                    brandName="bershka"
+                                />
+                            </Grid>
+                        );
+                    })
                 ) : (
                     <Typography variant="h6" align={"center"} sx={{
                         textAlign: "center",

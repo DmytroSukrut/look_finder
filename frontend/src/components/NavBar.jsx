@@ -21,6 +21,19 @@ export const NavBar = () => {
         console.log("Login status changed to: " + isLoggedIn);
     }
 
+    function call() {
+        const url_to_fetch = new URL('http://localhost:8080/api/clothes/bershka/filter')
+        url_to_fetch.searchParams.append('category', 'jeans_w')
+        url_to_fetch.searchParams.append('size', 'XL')
+
+        fetch(url_to_fetch, {
+            method: 'GET',
+            headers: {'content-type': 'application/json'},
+        }).then((response) => {
+            console.log(response);
+        })
+    }
+
     return (
         <AppBar
             position="static"
@@ -98,6 +111,7 @@ export const NavBar = () => {
                                 transform: "rotate(145deg)",
                             }
                         }}
+                        onClick={call}
                     >
                         Favourite
                     </Button>

@@ -7,6 +7,7 @@ import {useState} from "react";
 export default function ProductCard ({ name, price, size, img, isFavourite, brandName}){
     const theme = useTheme();
     const [isFav, setIsFav] = useState(isFavourite);
+    console.log(name, price, size, img, isFavourite);
 
     return (
         <Paper
@@ -47,7 +48,7 @@ export default function ProductCard ({ name, price, size, img, isFavourite, bran
                     right: 8,
                     backgroundColor: "transparent",
                 }}
-                            onclick = {() => console.log("Favourite button clicked!")}
+                            onClick = {() => console.log("Favourite button clicked!")}
                 >
                     <StarBorderOutlinedIcon sx={{ color: "gold", fontSize: 30}} />
                 </IconButton>
@@ -58,7 +59,10 @@ export default function ProductCard ({ name, price, size, img, isFavourite, bran
                 mt: 2,
                 color: theme.palette.text.primary,
             }}>
-                <Typography variant="h6">
+                <Typography variant="h6" sx={{
+                    maxWidth: 200,
+                    textAlign: "left",
+                }}>
                     {name}
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
