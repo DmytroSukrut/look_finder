@@ -1,0 +1,13 @@
+src/main/resources/json/
+
+frontend/src/jsScripts/
+
+.idea/
+
+target/
+
+frontend/node_modules
+
+frontend/dist/
+
+HELP.md
