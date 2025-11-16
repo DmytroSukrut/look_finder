@@ -47,14 +47,56 @@ Core service responsible for fetching and parsing Bershka data.
 
 **Parameters:**
 
-- `category` — category to filter (e.g., `"jeans_w"`)
-- `sizeD` — digit size (e.g., `36`)
-- `sizeS` — text size (e.g., `M`)
+- `category` - category to filter (e.g., `"jeans_w"`)
+- `sizeD` - digit size (e.g., `36`)
+- `sizeS` - text size (e.g., `M`)
 
 **Returns:**  
 Parsed JSON containing all product data for the frontend.
 
 **Throws:**  
-`IOException` — if Bershka servers fail or the request cannot be completed.
+`IOException` - if Bershka servers fail or the request cannot be completed.
+
+---
+
+### **UrlCreatorBershka.java**
+<p style="font-size: 14px;">
+Creates url with all products id
+</p>
+
+**What it does:**
+
+1. Parses data from `stock` endpoint in bershka
+2. <b>Deletes</b> duplicates of products
+3. Creates url to fetch further with all necessary product ids
+
+**Parameters:**
+
+- `json` - raw stock JSON, which contains all bershkas stocks
+- `category` - category to put in url (e.g., `"jeans_w"` appends `1010276029`)
+
+**Returns:**
+Url to fetch in service
+
+---
+
+### **BershkaParcer.java**
+<p style="font-size: 14px;">
+Component which paces original bershka JSON
+</p>
+
+**What it does:**
+
+Extracts necessary information from bershka JSON:
+name, id, all colors, price, size, photos.
+
+**Parameters:**
+
+- `json` - raw bershkas JSON, which contains all information about products
+- `sizeD` - digit size (e.g., `36`)
+- `sizeS` - text size (e.g., `M`)
+
+**Returns:**
+Subtracted JSON, which contains only necessary information
 
 ---
