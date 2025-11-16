@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/clothes/bershka")
+@RequestMapping("/api/clothes")
 public class GetBershkaClothes {
 
     private final BershkaService service;

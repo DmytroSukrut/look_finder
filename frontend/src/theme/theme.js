@@ -21,6 +21,16 @@ export const lightTheme = createTheme({
             default: '#fffdf8',
         }
     },
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 490,
+            md: 910,
+            lg: 1200,
+            xl: 1600,
+            xxl: 2000,
+        }
+    }
 });
 
 export const darkTheme = createTheme({

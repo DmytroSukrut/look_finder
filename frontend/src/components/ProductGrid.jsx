@@ -5,7 +5,7 @@ export default function ProductGrid({ products = [], title = "Special for you"})
     const theme = useTheme();
     const key_for_bershka1 = "p1";
     const key_for_bershka2 = "a4o";
-    console.log(products);
+
     return (
         <Box>
             <Typography variant="h4" align={"center"} sx={{
@@ -30,9 +30,8 @@ export default function ProductGrid({ products = [], title = "Special for you"})
                             found = product.photos?.find(p => p[key_for_bershka2]);
                         }
                         const imgUrl = found ? Object.values(found)[0] : "";
-                        console.log("imgUrl: " + imgUrl);
                         return (
-                            <Grid item xs={12} sm={4} md={3} key={product.id || product.name_en}>
+                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2, xxl: 1}} key={product.id}>
                                 <ProductCard
                                     img={imgUrl}
                                     name={product.name}

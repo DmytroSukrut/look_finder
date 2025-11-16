@@ -1,15 +1,24 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider, CssBaseline } from '@mui/material'
+import { BrowserRouter, Routes, Route } from "react-router";
 import './index.css'
 import MainPage from './pages/MainPage.jsx'
+import FindPage from './pages/FindPage.jsx'
+import FavoritePage from './pages/FavoritePage.jsx'
 import {darkTheme, lightTheme} from './theme/theme.js'
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
         <ThemeProvider theme={lightTheme}>
             <CssBaseline />
-            <MainPage />
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/find" element={<FindPage />} />
+                    <Route path="/favorites" element={<FavoritePage />} />
+                </Routes>
+            </BrowserRouter>
         </ThemeProvider>
     </StrictMode>
 )

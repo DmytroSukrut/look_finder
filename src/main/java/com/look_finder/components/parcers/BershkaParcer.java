@@ -169,6 +169,7 @@ public class BershkaParcer {
                                     photo_urls.add(photo_map);
                                 }
                             }
+                            position.put("id", product.path("id").asInt() + "_" + color_id);
                             position.put("photos", photo_urls);
                             break;
                         } else if(colors_ids.containsKey(color_id) && restricted_colors.contains(color_id)) { //Remove unneeded color

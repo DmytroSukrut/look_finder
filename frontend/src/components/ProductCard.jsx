@@ -7,7 +7,6 @@ import {useState} from "react";
 export default function ProductCard ({ name, price, size, img, isFavourite, brandName}){
     const theme = useTheme();
     const [isFav, setIsFav] = useState(isFavourite);
-    console.log(name, price, size, img, isFavourite);
 
     return (
         <Paper

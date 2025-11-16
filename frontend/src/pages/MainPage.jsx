@@ -1,27 +1,69 @@
-import { Button, Container, Typography, Box } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import {Box} from "@mui/material";
+import React, {useEffect, useState} from "react";
 import {NavBar} from "../components/NavBar.jsx";
 import ProductGrid from "../components/ProductGrid.jsx";
 
-import zaraPlaceholder from "../assets/zara_placeholder.jpg";
-import bershkaPlaceholder from "../assets/bershka_placeholder.jpg";
+const JSON_LIFETIME = 24 * 60 * 60; //Lifetime is one day
 
 export default function MainPage() {
     {/*name, price, size, img, isFavourite, brandName*/}
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        const url_to_fetch = new URL('http://localhost:8080/api/clothes/bershka/filter');
-        url_to_fetch.searchParams.append('category', 'jeans_w');
-        url_to_fetch.searchParams.append('sizeD', '36');
-        url_to_fetch.searchParams.append('sizeS', 'M');
+        let random_product_category = "jeans_w"
+        const sizeD = 36
+        const sizeS = "M"
 
-        fetch(url_to_fetch, {
-            method: 'GET',
-        }).then(res => res.json())
-            .then(setProducts)
-            .catch(err => console.log(err))
+        const key = `${random_product_category}_${sizeD}_${sizeS}`
+
+        async function load() {
+            const is_saved = JSON.parse(localStorage.getItem(key));
+
+            if (is_saved && (Math.floor(Date.now() / 1000) - is_saved.timestamp < JSON_LIFETIME )) {
+                setProducts(is_saved.data)
+            } else {
+                const data = await fetch_clothes(random_product_category, sizeD, sizeS);
+
+                if (!data) return
+
+                const save = {
+                    timestamp: Math.floor(Date.now() / 1000),
+                    timestampHuman: getCompactDate(),
+                    data: data
+                }
+
+                setProducts(data)
+                localStorage.setItem(key, JSON.stringify(save))
+            }
+        }
+
+        load();
+
     }, []);
+
+    async function fetch_clothes(category, sizeD, sizeS) {
+        const url_to_fetch = new URL('http://localhost:8080/api/clothes/filter');
+        url_to_fetch.searchParams.append('category', category);
+        url_to_fetch.searchParams.append('sizeD', sizeD);
+        url_to_fetch.searchParams.append('sizeS', sizeS);
+
+        try {
+            const res = await fetch(url_to_fetch);
+
+            if (!res.ok) {
+                throw new Error("HTTP error: " + res.status);
+            }
+
+            return await res.json();
+        } catch (err) {
+            console.log(err);
+            return null;
+        }
+    }
+
+    function getCompactDate() {
+        return new Date().toISOString().slice(0, 19).replace(/[:T-]/g, "-");
+    }
 
     return (
         <Box sx={{
