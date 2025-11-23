@@ -24,7 +24,12 @@ export default function MainPage() {
             } else {
                 const data = await fetch_clothes(random_product_category, sizeD, sizeS);
 
-                if (!data) return
+                if (data.error && is_saved){
+                    setProducts(is_saved.data)
+                    return
+                } else if (data.error && !is_saved){
+                    return
+                }
 
                 const save = {
                     timestamp: Math.floor(Date.now() / 1000),
@@ -48,7 +53,14 @@ export default function MainPage() {
         url_to_fetch.searchParams.append('sizeS', sizeS);
 
         try {
-            const res = await fetch(url_to_fetch);
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
+
+            const res = await fetch(url_to_fetch, {
+                signal: controller.signal,
+            });
+
+            clearTimeout(timeout);
 
             if (!res.ok) {
                 throw new Error("HTTP error: " + res.status);
@@ -57,7 +69,7 @@ export default function MainPage() {
             return await res.json();
         } catch (err) {
             console.log(err);
-            return null;
+            return {error: err.message};
         }
     }
 

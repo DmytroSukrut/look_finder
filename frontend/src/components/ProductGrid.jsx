@@ -22,6 +22,7 @@ export default function ProductGrid({ products = [], title = "Special for you"})
                 width: "90%",
                 maxWidth: 1500,
                 margin: "0 auto",
+                mb: 5,
             }}>
                 {products && products.length > 0 ? (
                     products.map((product) => {

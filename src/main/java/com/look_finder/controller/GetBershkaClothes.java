@@ -26,7 +26,8 @@ public class GetBershkaClothes {
     public Object getClothes(
             @RequestParam String category,
             @RequestParam(defaultValue = "36") String sizeD,
-            @RequestParam(defaultValue = "M") String sizeS
+            @RequestParam(defaultValue = "M") String sizeS,
+            @RequestParam(defaultValue = "f") String sex
     ) throws IOException, InterruptedException {
 //        try {
 //            service.getAndParseJSON(category, size);
@@ -34,7 +35,6 @@ public class GetBershkaClothes {
 //            e.printStackTrace();
 //        }
 
-        return service.getAndParseJSON(category, sizeD, sizeS);
+        return service.getAndParseJSON(category, sizeD, sizeS, sex);
     }
-
 }

@@ -19,21 +19,11 @@ public class UrlCreatorBershka {
      * @param category depending on category adds correct category id
      * @return url to fetch in "BershkaService" later
      * */
-    public String CreateUrl(String json, String category){
+    public String CreateUrl(String json, String category_id){
 
         StringBuilder sb = new StringBuilder();
         StringBuilder url = new StringBuilder("https://www.bershka.com/itxrest/3/catalog/store/45109545/40259564/productsArray?categoryId=");
-
-        switch(category){
-            case "jeans_w":
-                url.append("1010276029");
-                break;
-            case "jackets_m":
-                url.append("1010193546");
-                break;
-            default:
-                return "ERROR_INVALID_CATEGORY";
-        }
+        url.append(category_id);
 
         List<String> ids = new ArrayList<>();
 

@@ -1,0 +1,28 @@
+[
+  {
+    "sex": "f",
+    "category_urls": [
+      {
+        "name": "jeans",
+        "category_id": "1010276029"
+      },
+      {
+        "name": "jackets",
+        "category_id": "1010193212"
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "category_urls": [
+      {
+        "name": "jeans",
+        "category_id": "1010193238"
+      },
+      {
+        "name": "jackets",
+        "category_id": "1010193546"
+      }
+    ]
+  }
+]

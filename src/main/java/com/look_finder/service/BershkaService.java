@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.look_finder.components.parcers.BershkaParcer;
 import com.look_finder.components.parcers.UrlCreatorBershka;
+import com.look_finder.components.parcers.CategoryIdFinderBershka;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,10 +18,12 @@ public class BershkaService {
 
     private final BershkaParcer parcer;
     private final UrlCreatorBershka urlCreator;
+    private final CategoryIdFinderBershka idFinder;
 
-    public BershkaService(BershkaParcer parcer,  UrlCreatorBershka urlCreator) {
+    public BershkaService(BershkaParcer parcer,  UrlCreatorBershka urlCreator,   CategoryIdFinderBershka idFinder) {
         this.parcer = parcer;
         this.urlCreator = urlCreator;
+        this.idFinder = idFinder;
     }
 
     /**
@@ -34,11 +37,11 @@ public class BershkaService {
      * @return parsed JSON with all necessary information for display
      * @throws IOException if we have a problem fetching bershka data throws exception
      * */
-    public Object getAndParseJSON(String category, String sizeD, String sizeS) throws IOException {
+    public Object getAndParseJSON(String category, String sizeD, String sizeS, String sex) throws IOException {
 
+        String cat_id = idFinder.findCategoryId(category, sex);
         // Create url to correct stock
-        String url_stock = createUrlStock(category);
-
+        String url_stock = createUrlStock(cat_id);
         // Create an HTTP client (This client can send requests to endpoints)
         OkHttpClient client = new OkHttpClient();
 
@@ -62,7 +65,6 @@ public class BershkaService {
                 .build(); // End building a request
 
         String response_body;
-
         // Our Client sends our response, and we are waiting for the answer
         try (Response stock_resp = client.newCall(stock_req).execute()){
             if (!stock_resp.isSuccessful()) { // Check if we got "200" any other = error
@@ -81,7 +83,7 @@ public class BershkaService {
         * (for more explanation how it works, see the component "components/parcers/UrlCreatorBershka")
         * In return from it, we get url (unexpected, yes? :)) with NO duplicates of product! How cool is that!!!
         * */
-        String url_products = urlCreator.CreateUrl(response_body, category);
+        String url_products = urlCreator.CreateUrl(response_body, cat_id);
 
         System.out.println(url_products);
 
@@ -135,19 +137,12 @@ public class BershkaService {
      * @param category Depends on the category adds necessary category id
      * @return url to fetch or that we send bad data
      * */
-    private String createUrlStock(String category) {
+    private String createUrlStock(String category_id) {
         StringBuilder url = new StringBuilder("https://www.bershka.com/itxrest/2/catalog/store/45109545/40259564/category/");
 
-        switch(category){
-            case "jeans_w":
-                url.append("1010276029/stock");
-                break;
-            case "jackets_m":
-                url.append("1010193546/stock");
-                break;
-            default:
-                return "ERROR_INVALID_CATEGORY";
-        }
+        url.append(category_id);
+
+        url.append("/stock");
         System.out.println(url);
         return url.toString();
     }

@@ -2,7 +2,7 @@ import { AppBar, Toolbar, Stack, Typography, Button, useTheme,
 Divider, Box, Avatar, useScrollTrigger, Slide} from "@mui/material";
 import { Link } from "react-router"
 
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
