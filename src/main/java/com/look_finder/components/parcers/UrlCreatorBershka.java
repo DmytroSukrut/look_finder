@@ -16,7 +16,7 @@ public class UrlCreatorBershka {
     /**
      * This function creates url to get all necessary information from bershka endpoints
      * @param json JSON of all stocks (all product ids)
-     * @param category depending on category adds correct category id
+     * @param category_id Specific category id
      * @return url to fetch in "BershkaService" later
      * */
     public String CreateUrl(String json, String category_id){

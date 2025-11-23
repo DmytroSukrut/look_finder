@@ -134,7 +134,7 @@ public class BershkaService {
 
     /**
      * This private function creates url to bershka stocks
-     * @param category Depends on the category adds necessary category id
+     * @param category_id Specific category id
      * @return url to fetch or that we send bad data
      * */
     private String createUrlStock(String category_id) {
