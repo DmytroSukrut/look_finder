@@ -71,8 +71,8 @@ public class BershkaParcer {
                         .path("colors")) {
                     boolean found_correct_size = false;
                     String last_size = null;
-                    for (JsonNode size_find : color.path("sizes")) {
-                        String found_size = size_find.path("name").asText();
+                    for (JsonNode size_finder : color.path("sizes")) {
+                        String found_size = size_finder.path("name").asText();
                         /*
                         * Just a sign to speed up a process.
                         * If we read information about the requested size, we won't look further
@@ -93,14 +93,14 @@ public class BershkaParcer {
                         }
 
                         //Check if size is available
-                        if (foundSize != null && size_find.path("visibilityValue").asText().equals("SHOW")) {
+                        if (foundSize != null && size_finder.path("visibilityValue").asText().equals("SHOW")) {
                             found_correct_size = true;
                             size = foundSize;
 
                             // Save the available size
                             Map<String, Object> colorName = new HashMap<>();
                             colorName.put("color", color.path("name").asText());
-                            colorName.put("sizeType", size_find.path("sizeType").asText());
+                            colorName.put("sizeType", size_finder.path("sizeType").asText());
                             colors_and_types.add(colorName);
                         }
                     }

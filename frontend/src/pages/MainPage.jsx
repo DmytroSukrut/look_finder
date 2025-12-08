@@ -6,15 +6,17 @@ import ProductGrid from "../components/ProductGrid.jsx";
 const JSON_LIFETIME = 24 * 60 * 60; //Lifetime is one day
 
 export default function MainPage() {
-    {/*name, price, size, img, isFavourite, brandName*/}
+
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        let random_product_category = "jeans_w"
-        const sizeD = 36
-        const sizeS = "M"
+        let random_product_category = "jeans"
+        const sex = "f"
+        const bust = "91"
+        const waist = "69"
+        const hip = "97"
 
-        const key = `${random_product_category}_${sizeD}_${sizeS}`
+        const key = `${random_product_category}_${sex}_${bust}_${waist}_${hip}`
 
         async function load() {
             const is_saved = JSON.parse(localStorage.getItem(key));
@@ -22,7 +24,7 @@ export default function MainPage() {
             if (is_saved && (Math.floor(Date.now() / 1000) - is_saved.timestamp < JSON_LIFETIME )) {
                 setProducts(is_saved.data)
             } else {
-                const data = await fetch_clothes(random_product_category, sizeD, sizeS);
+                const data = await fetch_clothes(random_product_category, sex, bust, waist , hip);
 
                 if (data.error && is_saved){
                     setProducts(is_saved.data)
@@ -46,11 +48,13 @@ export default function MainPage() {
 
     }, []);
 
-    async function fetch_clothes(category, sizeD, sizeS) {
+    async function fetch_clothes(category, sex, bust, waist, hip) {
         const url_to_fetch = new URL('http://localhost:8080/api/clothes/filter');
         url_to_fetch.searchParams.append('category', category);
-        url_to_fetch.searchParams.append('sizeD', sizeD);
-        url_to_fetch.searchParams.append('sizeS', sizeS);
+        url_to_fetch.searchParams.append('sex', sex);
+        url_to_fetch.searchParams.append('bust', bust);
+        url_to_fetch.searchParams.append('waist', waist)
+        url_to_fetch.searchParams.append('hip', hip)
 
         try {
             const controller = new AbortController();

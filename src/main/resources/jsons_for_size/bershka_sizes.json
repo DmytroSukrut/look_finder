@@ -1,0 +1,203 @@
+[
+  {
+    "sex": "f",
+    "orientation": "top",
+    "sizes": [
+      {
+        "size": "XXS",
+        "bust": 76,
+        "waist": 58,
+        "hip": 84
+      },
+      {
+        "size": "XS",
+        "bust": 80,
+        "waist": 62,
+        "hip": 88
+      },
+      {
+        "size": "S",
+        "bust": 86,
+        "waist": 68,
+        "hip": 94
+      },
+      {
+        "size": "M",
+        "bust": 92,
+        "waist": 70,
+        "hip": 98
+      },
+      {
+        "size": "L",
+        "bust": 98,
+        "waist": 76,
+        "hip": 104
+      },
+      {
+        "size": "XL",
+        "bust": 104,
+        "waist": 80,
+        "hip": 110
+      }
+    ]
+  },
+  {
+    "sex": "f",
+    "orientation": "bottom",
+    "sizes": [
+      {
+        "size": "32",
+        "waist": 60,
+        "hip": 86
+      },
+      {
+        "size": "34",
+        "waist": 64,
+        "hip": 90
+      },
+      {
+        "size": "36",
+        "waist": 68,
+        "hip": 94
+      },
+      {
+        "size": "38",
+        "waist": 72,
+        "hip": 98
+      },
+      {
+        "size": "40",
+        "waist": 76,
+        "hip": 102
+      },
+      {
+        "size": "42",
+        "waist": 80,
+        "hip": 106
+      },
+      {
+        "size": "44",
+        "waist": 84,
+        "hip": 115
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "orientation": "top",
+    "sizes": [
+      {
+        "size": "XXS",
+        "waist": 81,
+        "hip": 81
+      },
+      {
+        "size": "XS",
+        "waist": 87,
+        "hip": 87
+      },
+      {
+        "size": "S",
+        "waist": 93,
+        "hip": 93
+      },
+      {
+        "size": "M",
+        "waist": 99,
+        "hip": 99
+      },
+      {
+        "size": "L",
+        "waist": 105,
+        "hip": 105
+      },
+      {
+        "size": "XL",
+        "waist": 111,
+        "hip": 111
+      },
+      {
+        "size": "XXL",
+        "waist": 117,
+        "hip": 117
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "orientation": "bottomD",
+    "sizes": [
+      {
+        "size": "34",
+        "waist": 70,
+        "hip": 87
+      },
+      {
+        "size": "36",
+        "waist": 74,
+        "hip": 91
+      },
+      {
+        "size": "38",
+        "waist": 78,
+        "hip": 95
+      },
+      {
+        "size": "40",
+        "waist": 82,
+        "hip": 99
+      },
+      {
+        "size": "42",
+        "waist": 86,
+        "hip": 103
+      },
+      {
+        "size": "44",
+        "waist": 90,
+        "hip": 107
+      },
+      {
+        "size": "46",
+        "waist": 94,
+        "hip": 111
+      },
+      {
+        "size": "48",
+        "waist": 98,
+        "hip": 115
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "orientation": "bottomS",
+    "sizes": [
+      {
+        "size": "XS",
+        "waist": 70,
+        "hip": 87
+      },
+      {
+        "size": "S",
+        "waist": 76,
+        "hip": 93
+      },
+      {
+        "size": "M",
+        "waist": 82,
+        "hip": 99
+      },
+      {
+        "size": "L",
+        "waist": 88,
+        "hip": 105
+      },
+      {
+        "size": "XL",
+        "waist": 94,
+        "hip": 111
+      }
+    ]
+  }
+]

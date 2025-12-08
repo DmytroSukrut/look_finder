@@ -4,11 +4,73 @@
     "category_urls": [
       {
         "name": "jeans",
-        "category_id": "1010276029"
+        "category_id": "1010276029",
+        "orientation": "bottom"
       },
       {
         "name": "jackets",
-        "category_id": "1010193212"
+        "category_id": "1010193212",
+        "orientation": "top"
+      },
+      {
+        "name": "coats",
+        "category_id": "1010240019",
+        "orientation": "top"
+      },
+      {
+        "name": "trousers",
+        "category_id": "1010193216",
+        "orientation": "bottom"
+      },
+      {
+        "name": "dresses_and_jumpsuits",
+        "category_id": "1010193213",
+        "orientation": "top"
+      },
+      {
+        "name": "sweaters_and_cardigans",
+        "category_id": "1010193223",
+        "orientation": "top"
+      },
+      {
+        "name": "sweatshirts_and_hoodies",
+        "category_id": "1010193222",
+        "orientation": "top"
+      },
+      {
+        "name": "tops_and_bodysuits",
+        "category_id": "1010193220",
+        "orientation": "top"
+      },
+      {
+        "name": "t_shirts",
+        "category_id": "1010193217",
+        "orientation": "top"
+      },
+      {
+        "name": "shirts_and_blouses",
+        "category_id": "1010193221",
+        "orientation": "top"
+      },
+      {
+        "name": "knitwear",
+        "category_id": "1010836569",
+        "orientation": "top"
+      },
+      {
+        "name": "skirts",
+        "category_id": "1010280023",
+        "orientation": "bottom"
+      },
+      {
+        "name": "shorts_and_bermudas",
+        "category_id": "1010194517",
+        "orientation": "bottom"
+      },
+      {
+        "name": "swimwear",
+        "category_id": "1010361506",
+        "orientation": "top"
       }
     ]
   },
@@ -17,11 +79,58 @@
     "category_urls": [
       {
         "name": "jeans",
-        "category_id": "1010193238"
+        "category_id": "1010193238",
+        "orientation": "bottom"
       },
       {
         "name": "jackets",
-        "category_id": "1010193546"
+        "category_id": "1010193546",
+        "orientation": "top"
+      },
+      {
+        "name": "puffer_jackets",
+        "category_id": "1010585666",
+        "orientation": "top"
+      },
+      {
+        "name": "sweatshirts_and_hoodies",
+        "category_id": "1010193244",
+        "orientation": "top"
+      },
+      {
+        "name": "sweaters_and_cardigans",
+        "category_id": "1010193243",
+        "orientation": "top"
+      },
+      {
+        "name": "trousers",
+        "category_id": "1010193241",
+        "orientation": "bottom"
+      },
+      {
+        "name": "baggy_trousers",
+        "category_id": "1010690760",
+        "orientation": "bottom"
+      },
+      {
+        "name": "t_shirts",
+        "category_id": "1010193239",
+        "orientation": "top"
+      },
+      {
+        "name": "shirts",
+        "category_id": "1010193240",
+        "orientation": "top"
+      },
+      {
+        "name": "polos",
+        "category_id": "1010808523",
+        "orientation": "top"
+      },
+      {
+        "name": "shorts",
+        "category_id": "1010193242",
+        "orientation": "bottom"
       }
     ]
   }

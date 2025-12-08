@@ -100,3 +100,16 @@ name, id, all colors, price, size, photos.
 Subtracted JSON, which contains only necessary information
 
 ---
+
+H&M request for getting all info about clothes:
+https://api.hm.com/search-services/v1/sk_sk/listing/resultpage?pageSource=PLP&page=1&sort=RELEVANCE&pageId=/men/shop-by-product/trousers&page-size=70&categoryId=men_trousers&filters=sale:false||oldSale:false&touchPoint=DESKTOP&skipStockCheck=false
+
+![img.png](img.png)
+
+---
+
+NewYorker request:
+https://api.newyorker.de/csp/products/public/query?limit=30&offset=0&filters%5Bcountry%5D=sk&filters%5Bgender%5D=FEMALE&filters%5Bbrand%5D=&filters%5Bcolor%5D=&filters%5Bweb_category%5D=WCA00110&filters%5Blikes%5D=&filters%5Bcollections%5D=&filters%5Beditorials%5D=
+
+Url to get photo:
+https://nyerblobstoreprod.blob.core.windows.net/product-images-public/PHTO_NAME_HERE.png

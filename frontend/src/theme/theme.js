@@ -13,7 +13,9 @@ export const lightTheme = createTheme({
             themePink: '#ff97ca',
             themePinkLighter: '#fbafde',
             themeBlue: '#97dfff',
+            themeBlue_: 'rgba(150,221,253, 0.3)',
             themeBlueLighter: '#98e9f4',
+            themeBlueLighter_: 'rgb(151,231,242, 0.6)',
         },
         text: {
             primary: '#000000',
@@ -37,17 +39,16 @@ export const lightTheme = createTheme({
         MuiCssBaseline: {
             styleOverrides: {
                 "&::-webkit-scrollbar": {
-                    width: 10,
-                    borderRadius: 10,
-                    backgroundColor: '#ff97ca',
+                    width: 8,
+                    borderRadius: 0,
                 },
                 "&::-webkit-scrollbar-track": {
                     borderRadius: 10,
                 },
                 "&::-webkit-scrollbar-thumb": {
-                    backgroundColor: '#ed0074',
+                    backgroundColor: 'rgba(253,150,201, 0.8)',
+                    border: `2px solid rgba(253,150,201, 0.9)`,
                     borderRadius: 10,
-                    border: "2px solid #fbafde",
                 },
             }
         }

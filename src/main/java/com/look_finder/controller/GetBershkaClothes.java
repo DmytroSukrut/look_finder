@@ -25,16 +25,16 @@ public class GetBershkaClothes {
     @GetMapping("/filter")
     public Object getClothes(
             @RequestParam String category,
-            @RequestParam(defaultValue = "36") String sizeD,
-            @RequestParam(defaultValue = "M") String sizeS,
-            @RequestParam(defaultValue = "f") String sex
+            @RequestParam(defaultValue = "f") String sex,
+            @RequestParam(defaultValue = "0") String bust,
+            @RequestParam(defaultValue = "0") String waist,
+            @RequestParam(defaultValue = "0") String hip
     ) throws IOException, InterruptedException {
-//        try {
-//            service.getAndParseJSON(category, size);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
-        return service.getAndParseJSON(category, sizeD, sizeS, sex);
+        int bust_ =  Integer.parseInt(bust);
+        int waist_ =  Integer.parseInt(waist);
+        int hip_ =  Integer.parseInt(hip);
+
+        return service.getAndParseJSON(category, sex,  bust_, waist_, hip_);
     }
 }

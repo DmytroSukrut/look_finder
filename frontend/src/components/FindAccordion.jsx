@@ -18,24 +18,86 @@ export const FindAccordion = ({data, setData}) => {
         }
     }
 
-    const [clothesType, setClothesType] = useState("jeans")
-    const [sex, setSex] = useState("f")
-    const [sizeD, setSizeD] = useState("38")
-    const [sizeS, setSizeS] = useState("L")
+    const [expanded, setExpanded] = useState(false);
+
+    const accordionStyleNotExpended = {
+        bgcolor: theme.palette.custom.themeBlue_,
+        backdropFilter: 'blur(1px)',
+        WebkitBackdropFilter: 'blur(1px)',
+        transition: "all 0.3s ease-in-out",
+    }
+
+    const accordionStyleExpended = {
+        bgcolor: theme.palette.custom.themeBlue_,
+        backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
+        transition: "all 0.3s ease-in-out",
+    }
+
+    const [clothesType, setClothesType] = useState(data.clothesType)
+    const [sex, setSex] = useState(data.sex)
+    const [bust, setBust] = useState(data.bust)
+    const [waist, setWaist] = useState(data.waist)
+    const [hip, setHip] = useState(data.hip)
+
+    const renderClothes= () => {
+        if (sex === "f"){
+            return (
+                <RadioGroup defaultValue="jeans" onChange={(e) => setClothesType(e.target.value)} >
+                    <FormControlLabel value="jeans" control={<Radio sx={radioStyle}/>} label="JEANS" />
+                    <FormControlLabel value="trousers" control={<Radio sx={radioStyle}/>} label="TROUSERS" />
+                    <FormControlLabel value="skirts" control={<Radio sx={radioStyle}/>} label="SKIRTS" />
+                    <FormControlLabel value="shorts_and_bermudas" control={<Radio sx={radioStyle}/>} label="SHORTS" />
+                    <FormControlLabel value="t_shirts" control={<Radio sx={radioStyle}/>} label="T-SHIRTS" />
+                    <FormControlLabel value="tops_and_bodysuits" control={<Radio sx={radioStyle}/>} label="TOPS" />
+                    <FormControlLabel value="shirts_and_blouses" control={<Radio sx={radioStyle}/>} label="SHIRTS" />
+                    <FormControlLabel value="dresses_and_jumpsuits" control={<Radio sx={radioStyle}/>} label="DRESSES" />
+
+                    <FormControlLabel value="jackets" control={<Radio sx={radioStyle}/>} label="JACKETS & COATS" />
+                    {/*CHANGE LATER ON BACKEND SO HERE WILL GET JACKETS AND COATS*/}
+                    {/*<FormControlLabel value="jackets+coats" control={<Radio sx={radioStyle}/>} label="JACKETS & COATS" />*/}
+
+                    <FormControlLabel value="sweaters_and_cardigans" control={<Radio sx={radioStyle}/>} label="SWEATERS & CARDIGANS & KNITWEAR" />
+                    {/*CHANGE LATER ON BACKEND SO HERE WILL GET ALSO KNITWEAR*/}
+                    {/*<FormControlLabel value="sweaters_and_cardigans+knitwear" control={<Radio sx={radioStyle}/>} label="SWEATERS & CARDIGANS & KNITWEAR" />*/}
+
+                    <FormControlLabel value="sweatshirts_and_hoodies" control={<Radio sx={radioStyle}/>} label="SWEATSHIRTS & HOODIES" />
+                    <FormControlLabel value="swimwear" control={<Radio sx={radioStyle}/>} label="SWIMWEAR" />
+                </RadioGroup>
+            )
+        } else {
+            return (
+                <RadioGroup defaultValue="jeans" onChange={(e) => setClothesType(e.target.value)} >
+                    <FormControlLabel value="jeans" control={<Radio sx={radioStyle}/>} label="JEANS" />
+                    <FormControlLabel value="jackets" control={<Radio sx={radioStyle}/>} label="JACKETS" />
+                </RadioGroup>
+            )
+        }
+    }
 
     return (
         <Box sx={{
             transform: trigger ? "translateY(-64px)" : "translateY(0)",
             transition: "all 0.3s",
-            width: '20%',
             position: 'fixed',
             top: 64,
             boxShadow: theme.shadows[5],
-            zIndex: 10
+            backgroundColor: 'transparent',
+            zIndex: 10,
+            width: {
+                xs: "100%",
+                sm: '50%',
+                md: '30%',
+                lg: '20%',
+            }
         }}>
-            <Accordion>
+            <Accordion
+                expanded={expanded}
+                onChange={() => setExpanded(!expanded)}
+                sx={expanded ? accordionStyleExpended : accordionStyleNotExpended}
+            >
                 <AccordionSummary expandIcon={<ArrowDropDownIcon sx={{ color: theme.palette.text.primary }}/>} sx={{
-                    bgcolor: theme.palette.custom.themeBlue,
+                    bgcolor: 'transparent',
                 }}>
                     <Typography variant="h6" sx={{
                         textAlign: "left",
@@ -44,7 +106,7 @@ export const FindAccordion = ({data, setData}) => {
                     </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{
-                    bgcolor: theme.palette.custom.themeBlue,
+                    bgcolor: 'transparent',
                     height: trigger ? "calc(100vh - 74px)" : "calc(100vh - 64px - 74px)",
                     transition: "all 0.3s ease-in-out",
                     position: 'relative',
@@ -53,9 +115,11 @@ export const FindAccordion = ({data, setData}) => {
                 }}>
                     <Box sx={{
                         overflowY: "auto",
-                        bgcolor: theme.palette.custom.themeBlueLighter,
+                        bgcolor: theme.palette.custom.themeBlueLighter_,
+                        backdropFilter: 'blur(10px)',
+                        WebkitBackdropFilter: 'blur(10px)',
+                        border: `2px solid ${theme.palette.text.secondary}`,
                         borderRadius: 1,
-                        border: `1px solid ${theme.palette.text.secondary}`,
                         mb: 2,
                         flexGrow: 1,
                     }}>
@@ -76,21 +140,7 @@ export const FindAccordion = ({data, setData}) => {
                                 borderBottomWidth: 3,
                                 borderColor: theme.palette.text.primary,
                             }}/>
-                            <RadioGroup
-                                defaultValue="jeans"
-                                onChange={(e) => setClothesType(e.target.value)}
-                            >
-                                <FormControlLabel
-                                    value="jeans"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="JEANS"
-                                />
-                                <FormControlLabel
-                                    value="jackets"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="JACKETS"
-                                />
-                            </RadioGroup>
+                            {renderClothes()}
                         </FormControl>
 
                         {/*MALE OR FEMALE*/}
@@ -127,105 +177,111 @@ export const FindAccordion = ({data, setData}) => {
                             </RadioGroup>
                         </FormControl>
 
-                        {/*SIZE DIGITS*/}
-                        <FormControl sx={{
-                            display: "block",
-                            width: "100%",
-                            p: 1,
-                        }}>
-                            <FormLabel sx={{
-                                color: theme.palette.text.primary + "!important",
-                                fontSize: 28,
-                                fontWeight: 500,
-                            }}>
-                                Size in digits
-                            </FormLabel>
-                            <Divider variant="fullWidth" sx={{
-                                borderBottomWidth: 3,
-                                borderColor: theme.palette.text.primary,
-                            }}/>
-                            <RadioGroup
-                                defaultValue="36"
-                                onChange={(e) => setSizeD(e.target.value)}
-                            >
-                                <FormControlLabel
-                                    value="36"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="36"
-                                />
-                                <FormControlLabel
-                                    value="38"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="38"
-                                />
-                                <FormControlLabel
-                                    value="40"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="40"
-                                />
-                            </RadioGroup>
-                        </FormControl>
+                        {/*/!*SIZE DIGITS*!/*/}
+                        {/*<FormControl sx={{*/}
+                        {/*    display: "block",*/}
+                        {/*    width: "100%",*/}
+                        {/*    p: 1,*/}
+                        {/*}}>*/}
+                        {/*    <FormLabel sx={{*/}
+                        {/*        color: theme.palette.text.primary + "!important",*/}
+                        {/*        fontSize: 28,*/}
+                        {/*        fontWeight: 500,*/}
+                        {/*    }}>*/}
+                        {/*        Size in digits*/}
+                        {/*    </FormLabel>*/}
+                        {/*    <Divider variant="fullWidth" sx={{*/}
+                        {/*        borderBottomWidth: 3,*/}
+                        {/*        borderColor: theme.palette.text.primary,*/}
+                        {/*    }}/>*/}
+                        {/*    <RadioGroup*/}
+                        {/*        defaultValue="36"*/}
+                        {/*        onChange={(e) => setSizeD(e.target.value)}*/}
+                        {/*    >*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="36"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="36"*/}
+                        {/*        />*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="38"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="38"*/}
+                        {/*        />*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="40"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="40"*/}
+                        {/*        />*/}
+                        {/*    </RadioGroup>*/}
+                        {/*</FormControl>*/}
 
-                        {/*SIZE STRING*/}
-                        <FormControl sx={{
-                            display: "block",
-                            width: "100%",
-                            p: 1,
-                        }}>
-                            <FormLabel sx={{
-                                color: theme.palette.text.primary + "!important",
-                                fontSize: 28,
-                                fontWeight: 500,
-                            }}>
-                                Size in letters
-                            </FormLabel>
-                            <Divider variant="fullWidth" sx={{
-                                borderBottomWidth: 3,
-                                borderColor: theme.palette.text.primary,
-                            }}/>
-                            <RadioGroup
-                                defaultValue="XS"
-                                onChange={(e) => setSizeS(e.target.value)}
-                            >
-                                <FormControlLabel
-                                    value="XS"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="XS"
-                                />
-                                <FormControlLabel
-                                    value="S"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="S"
-                                />
-                                <FormControlLabel
-                                    value="M"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="M"
-                                />
-                                <FormControlLabel
-                                    value="L"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="L"
-                                />
-                                <FormControlLabel
-                                    value="XL"
-                                    control={<Radio sx={radioStyle}/>}
-                                    label="XL"
-                                />
-                            </RadioGroup>
-                        </FormControl>
+                        {/*/!*SIZE STRING*!/*/}
+                        {/*<FormControl sx={{*/}
+                        {/*    display: "block",*/}
+                        {/*    width: "100%",*/}
+                        {/*    p: 1,*/}
+                        {/*}}>*/}
+                        {/*    <FormLabel sx={{*/}
+                        {/*        color: theme.palette.text.primary + "!important",*/}
+                        {/*        fontSize: 28,*/}
+                        {/*        fontWeight: 500,*/}
+                        {/*    }}>*/}
+                        {/*        Size in letters*/}
+                        {/*    </FormLabel>*/}
+                        {/*    <Divider variant="fullWidth" sx={{*/}
+                        {/*        borderBottomWidth: 3,*/}
+                        {/*        borderColor: theme.palette.text.primary,*/}
+                        {/*    }}/>*/}
+                        {/*    <RadioGroup*/}
+                        {/*        defaultValue="XS"*/}
+                        {/*        onChange={(e) => setSizeS(e.target.value)}*/}
+                        {/*    >*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="XS"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="XS"*/}
+                        {/*        />*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="S"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="S"*/}
+                        {/*        />*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="M"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="M"*/}
+                        {/*        />*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="L"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="L"*/}
+                        {/*        />*/}
+                        {/*        <FormControlLabel*/}
+                        {/*            value="XL"*/}
+                        {/*            control={<Radio sx={radioStyle}/>}*/}
+                        {/*            label="XL"*/}
+                        {/*        />*/}
+                        {/*    </RadioGroup>*/}
+                        {/*</FormControl>*/}
                     </Box>
                     <Box sx={{
                         left: 5,
                         bottom: 5,
                     }}>
-                        <Button variant="contained"
+                        <Button variant="outlined" sx={{
+                            width: "100%",
+                            color: theme.palette.text.primary,
+                            borderColor: theme.palette.text.primary,
+                            borderWidth: 3,
+                        }}
                                 onClick={() => {
                                     setData({
                                         clothesType: clothesType,
-                                        sizeD: sizeD,
-                                        sizeS: sizeS,
                                         sex: sex,
+                                        bust: bust,
+                                        waist: waist,
+                                        hip: hip,
                                     })
                                 }}
                         >

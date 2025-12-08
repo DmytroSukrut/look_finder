@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.look_finder.components.parcers.BershkaParcer;
 import com.look_finder.components.parcers.UrlCreatorBershka;
 import com.look_finder.components.parcers.CategoryIdFinderBershka;
+import com.look_finder.components.selector.BershkaSizeSelector;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,11 +20,13 @@ public class BershkaService {
     private final BershkaParcer parcer;
     private final UrlCreatorBershka urlCreator;
     private final CategoryIdFinderBershka idFinder;
+    private final BershkaSizeSelector  sizeSelector;
 
-    public BershkaService(BershkaParcer parcer,  UrlCreatorBershka urlCreator,   CategoryIdFinderBershka idFinder) {
+    public BershkaService(BershkaParcer parcer,  UrlCreatorBershka urlCreator,   CategoryIdFinderBershka idFinder, BershkaSizeSelector sizeSelector) {
         this.parcer = parcer;
         this.urlCreator = urlCreator;
         this.idFinder = idFinder;
+        this.sizeSelector = sizeSelector;
     }
 
     /**
@@ -37,9 +40,13 @@ public class BershkaService {
      * @return parsed JSON with all necessary information for display
      * @throws IOException if we have a problem fetching bershka data throws exception
      * */
-    public Object getAndParseJSON(String category, String sizeD, String sizeS, String sex) throws IOException {
+    public Object getAndParseJSON(String category, String sex, int bust, int waist, int hip) throws IOException {
 
-        String cat_id = idFinder.findCategoryId(category, sex);
+        String temp = idFinder.findCategoryId(category, sex);
+        String[] parts = temp.split("\\+");
+        String cat_id = parts[0];
+        String orientation =  parts[1];
+
         // Create url to correct stock
         String url_stock = createUrlStock(cat_id);
         // Create an HTTP client (This client can send requests to endpoints)
@@ -128,6 +135,12 @@ public class BershkaService {
         Object jsonObj = mapper.readValue(response_body, Object.class);
         ObjectWriter writer = mapper.writerWithDefaultPrettyPrinter();
         Files.writeString(filePath, writer.writeValueAsString(jsonObj));
+
+        temp = sizeSelector.SelectSize(sex, orientation, bust, waist, hip);
+        String[] sizes = temp.split("\\+");
+        String sizeD = sizes[0];
+        String sizeS =  sizes[1];
+
 
         return parcer.parse(response_body, sizeD, sizeS);
     }
