@@ -20,7 +20,7 @@ public class BershkaParcer {
      * @param sizeD Size in digits
      * @param sizeS Size as Text
      * */
-    public Object parse(String json, String sizeD, String sizeS) {
+    public List<Map<String, Object>> parse(String json, String sizeD, String sizeS) {
         String[] temp = {"a4o", "b1", "p1", "a2d", "a1t"}; //array of photo codes we need to get
         Set<String> photos_originalName = new HashSet<>(Arrays.asList(temp)); // Same array but as Set
 

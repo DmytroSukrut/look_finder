@@ -4,8 +4,8 @@ import {FindAccordion} from "../components/FindAccordion.jsx";
 import React, { useEffect, useState } from "react";
 import ProductGrid from "../components/ProductGrid.jsx";
 
-const JSON_LIFETIME = 24 * 60 * 60; //Lifetime is one day
-// const JSON_LIFETIME = 1; //Check value
+// const JSON_LIFETIME = 24 * 60 * 60; //Lifetime is one day
+const JSON_LIFETIME = 1; //Check value
 
 export default function FindPage(){
     const [products, setProducts] = useState([]);

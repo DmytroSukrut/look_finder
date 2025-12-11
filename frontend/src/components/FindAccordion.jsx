@@ -52,15 +52,8 @@ export const FindAccordion = ({data, setData}) => {
                     <FormControlLabel value="tops_and_bodysuits" control={<Radio sx={radioStyle}/>} label="TOPS" />
                     <FormControlLabel value="shirts_and_blouses" control={<Radio sx={radioStyle}/>} label="SHIRTS" />
                     <FormControlLabel value="dresses_and_jumpsuits" control={<Radio sx={radioStyle}/>} label="DRESSES" />
-
-                    <FormControlLabel value="jackets" control={<Radio sx={radioStyle}/>} label="JACKETS & COATS" />
-                    {/*CHANGE LATER ON BACKEND SO HERE WILL GET JACKETS AND COATS*/}
-                    {/*<FormControlLabel value="jackets+coats" control={<Radio sx={radioStyle}/>} label="JACKETS & COATS" />*/}
-
-                    <FormControlLabel value="sweaters_and_cardigans" control={<Radio sx={radioStyle}/>} label="SWEATERS & CARDIGANS & KNITWEAR" />
-                    {/*CHANGE LATER ON BACKEND SO HERE WILL GET ALSO KNITWEAR*/}
-                    {/*<FormControlLabel value="sweaters_and_cardigans+knitwear" control={<Radio sx={radioStyle}/>} label="SWEATERS & CARDIGANS & KNITWEAR" />*/}
-
+                    <FormControlLabel value="jackets+coats" control={<Radio sx={radioStyle}/>} label="JACKETS & COATS2" />
+                    <FormControlLabel value="sweaters_and_cardigans+knitwear" control={<Radio sx={radioStyle}/>} label="SWEATERS & CARDIGANS & KNITWEAR" />
                     <FormControlLabel value="sweatshirts_and_hoodies" control={<Radio sx={radioStyle}/>} label="SWEATSHIRTS & HOODIES" />
                     <FormControlLabel value="swimwear" control={<Radio sx={radioStyle}/>} label="SWIMWEAR" />
                 </RadioGroup>
