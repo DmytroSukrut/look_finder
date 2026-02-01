@@ -237,13 +237,50 @@ public class BershkaService {
             }
         }
 
+        //PAGE DIVIDER MECHANISM
+
+        List<Map<String, Object>> divided_json = new ArrayList<>();
+
+        System.out.println("shfled length: " + shuffled_json.size());
+
+        float float_shuffled_length_divided = (float) shuffled_json.size() / 24;
+
+        System.out.println("float_shuffled_length_divided: " + float_shuffled_length_divided);
+
+        int page_quantity = (int) Math.ceil(float_shuffled_length_divided);
+
+
+        for (int i = 1; i <= page_quantity; i++) {
+            Map<String, Object> one_page = new HashMap<>();
+            List<Map<String, Object>> one_page_products = new ArrayList<>();
+
+            one_page.put("Page", i);
+
+            int iterations = 24;
+
+            if ((iterations * i) > shuffled_json.size()) {
+                iterations = shuffled_json.size() - ((i - 1) * 24);
+            }
+
+            for (int n = 0; n < iterations; n++) {
+                one_page_products.add(shuffled_json.get(n + (24 * (i - 1))));
+            }
+            one_page.put("products", one_page_products);
+            divided_json.add(one_page);
+        }
+
+        System.out.println("ready_json: \n" + divided_json);
+
         Path jsonDir = Path.of("src/main/resources/json");
         Files.createDirectories(jsonDir);
 
         Path filePath = jsonDir.resolve("shuffled_bershka.json");
+        Path filePath2 = jsonDir.resolve("divided_bershka.json");
 
         String prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(shuffled_json);
+        String prettyJson2 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(divided_json);
         Files.writeString(filePath, prettyJson);
+        Files.writeString(filePath2, prettyJson2);
 
 
         return shuffled_json;

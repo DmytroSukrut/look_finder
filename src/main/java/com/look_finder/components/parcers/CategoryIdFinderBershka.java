@@ -31,12 +31,7 @@ public class CategoryIdFinderBershka {
 
             for(JsonNode sex_ : root){
                 if (sex_.path("sex").asText().equals(sex)) {
-                    System.out.println(sex_);
                     for(JsonNode category_ : sex_.path("category_urls")){
-                        System.out.println(category_);
-                        System.out.println("1 category: " + category);
-                        System.out.println("2: " + category_.path("name").asText());
-                        System.out.println("3: " + category_.path("category_id").asText());
                         if(category_.path("name").asText().equals(category)){
                             return category_.path("category_id").asText() + "+" + category_.path("orientation").asText();
                         }

@@ -3,6 +3,7 @@ Divider, Box, Avatar, useScrollTrigger, Slide} from "@mui/material";
 import { Link } from "react-router"
 
 import {useEffect, useState} from "react";
+import { useNavigate } from "react-router";
 
 import HomeIcon from "@mui/icons-material/Home";
 import SearchIcon from "@mui/icons-material/Search";
@@ -15,10 +16,11 @@ import avatar from "../assets/avatar.jpg";
 
 export const NavBar = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const handleLogin = () => {
-        setIsLoggedIn(!isLoggedIn);
+        navigate("/user_operations");
     }
 
     return (

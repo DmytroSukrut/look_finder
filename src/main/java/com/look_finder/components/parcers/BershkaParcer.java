@@ -34,7 +34,9 @@ public class BershkaParcer {
                 * And creating a "product" for all colors available depending on can you buy them right now
                 * */
                 String name = product.path("name").asText(); // Saving product name
-
+                String name_en = product.path("nameEn").asText();
+                System.out.println(name);
+                System.out.println(name_en);
                 Map<Integer, String> colors_ids = new HashMap<>(); // Map for saving all colors available for the product
 
                 // for loop to save all the available colors
@@ -48,7 +50,7 @@ public class BershkaParcer {
                 //----------------PRICE----------------
                 JsonNode firstBundle = product.path("bundleProductSummaries").get(0);
                 if (firstBundle == null) {
-                    System.out.println("null");
+                    System.out.println("firstBundle is null");
                     continue;
                 }
                 // Getting the wrong price. Bershka send price as "2399" not 23,99
@@ -57,7 +59,6 @@ public class BershkaParcer {
                         .path("colors").get(0)
                         .path("sizes").get(0)
                         .path("price").asText();
-                System.out.println("price_wrong: " + price_wrong);
                 double price = Double.parseDouble(price_wrong) / 100; //Getting the correct price
 
                 String size = "";
@@ -108,12 +109,11 @@ public class BershkaParcer {
                     if (!found_correct_size) {
                         restricted_colors.add(Integer.parseInt(color.path("id").asText()));
                     }
-                    System.out.println("restricted_colors: " + restricted_colors);
                 }
-
+                System.out.println("Restricted_colors: " + restricted_colors);
                 //If there is no such size, no sense to look further
                 if (!is_correct_found) {
-                    System.out.println("No size found for: " + name);
+                    System.out.println("No size found");
                     continue;
                 }
 
@@ -123,17 +123,15 @@ public class BershkaParcer {
                     Map<String, Object> position = new HashMap<>();
                     //----------------NAMES----------------
                     position.put("name", name);
-                    System.out.println(name);
                     position.put("name_en", product.path("nameEn").asText());
-
+                    System.out.println("name in for loop: " + name);
+                    System.out.println("name in for loop: " + name_en);
                     //----------------PRICE----------------
                     position.put("price", price);
-                    System.out.println(price);
 
                     //-----------SIZE AND COLORS-----------
                     position.put("size", size);
                     position.put("colors_for_size", colors_and_types);
-                    System.out.println(colors_and_types);
 
                     //----------NEEDED PHOTOS URL----------
                     List<Map<String, Object>> photo_urls = new ArrayList<>();
@@ -146,14 +144,8 @@ public class BershkaParcer {
                         String[] parts = path.split("/");
                         int color_id = Integer.parseInt(parts[parts.length - 1]);
 
-                        System.out.println("color_id: " + color_id);
-                        System.out.println("colors_ids: " + colors_ids);
-                        System.out.println("restricted_colors: " + restricted_colors);
-                        System.out.println("path: " + path);
-
                         //Finds photos for each color
                         if (colors_ids.containsKey(color_id) && !restricted_colors.contains(color_id)) {
-                            System.out.println("colors_ids.get(color_id):  " + colors_ids.get(color_id));
 
                             position.put("positions_color", colors_ids.get(color_id));
                             colors_ids.remove(color_id); //Remove the color that we found
@@ -163,7 +155,6 @@ public class BershkaParcer {
                             for (JsonNode photo_find : firstMedias.path("medias")) { //find all necessary photos
                                 String photo_name = photo_find.path("extraInfo").path("originalName").asText();
                                 if (photos_originalName.contains(photo_name)) {
-                                    System.out.println(photo_name);
                                     Map<String, Object> photo_map = new HashMap<>();
                                     photo_map.put(photo_name, photo_find.path("url"));
                                     photo_urls.add(photo_map);
@@ -175,6 +166,7 @@ public class BershkaParcer {
                         } else if(colors_ids.containsKey(color_id) && restricted_colors.contains(color_id)) { //Remove unneeded color
                             colors_ids.remove(color_id);
                             should_be_added_to_postions = false;
+                            System.out.println("False srabotal");
                             break;
                         }
                     }
@@ -194,7 +186,6 @@ public class BershkaParcer {
             String prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(positions);
             Files.writeString(filePath, prettyJson);
 
-            System.out.println("✅ Parsed JSON saved to: " + filePath.toAbsolutePath());
 
             return positions;
         } catch (Exception e) {

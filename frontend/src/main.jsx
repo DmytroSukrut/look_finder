@@ -6,6 +6,7 @@ import './index.css'
 import MainPage from './pages/MainPage.jsx'
 import FindPage from './pages/FindPage.jsx'
 import FavoritePage from './pages/FavoritePage.jsx'
+import UserOperationsPage from './pages/UserOperationsPage.jsx'
 import {darkTheme, lightTheme} from './theme/theme.js'
 
 createRoot(document.getElementById('root')).render(
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/" element={<MainPage />} />
                     <Route path="/find" element={<FindPage />} />
                     <Route path="/favorites" element={<FavoritePage />} />
+                    <Route path="/user_operations" element={<UserOperationsPage />} />
                 </Routes>
             </BrowserRouter>
         </ThemeProvider>

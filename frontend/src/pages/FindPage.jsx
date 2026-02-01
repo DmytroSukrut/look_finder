@@ -3,13 +3,14 @@ import {NavBar} from "../components/NavBar.jsx";
 import {FindAccordion} from "../components/FindAccordion.jsx";
 import React, { useEffect, useState } from "react";
 import ProductGrid from "../components/ProductGrid.jsx";
+import { useNavigate } from "react-router";
 
 // const JSON_LIFETIME = 24 * 60 * 60; //Lifetime is one day
 const JSON_LIFETIME = 1; //Check value
 
 export default function FindPage(){
     const [products, setProducts] = useState([]);
-
+    const nav = useNavigate();
     const start_clothesType = "jeans"
     const start_sex = "f"
     const start_bust = "91"
