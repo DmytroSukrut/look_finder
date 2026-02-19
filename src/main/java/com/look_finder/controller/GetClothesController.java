@@ -48,13 +48,19 @@ public class GetClothesController {
 
         List<List<Map<String, Object>>> jsons_for_shuffle = new ArrayList<>();
 
-        System.out.println("WORKING ON BERSHKA _______________");
-        List<List<Map<String, Object>>> temp_bershka = service_bershka.getAndParseBershkaJSON(category, sex, bust_, waist_, hip_);
+        List<List<Map<String, Object>>> temp_bershka  = new ArrayList<>();
+
+        try {
+            System.out.println("WORKING ON BERSHKA _______________");
+            temp_bershka = service_bershka.getAndParseBershkaJSON(category, sex, bust_, waist_, hip_);
+            jsons_for_shuffle.addAll(temp_bershka);
+        } catch (Exception e) {
+            System.out.println("EXCEPTION");
+        }
 
         System.out.println("WORKING ON NEW YORKER _______________");
         List<Map<String, Object>> temp_new_yorker = service_newyorker.getAndParseNewYorkerJSON(category, sex, bust_, waist_, hip_);
 
-        jsons_for_shuffle.addAll(temp_bershka);
         jsons_for_shuffle.add(temp_new_yorker);
 
         return controller_shuffle.shuffle_and_divide(jsons_for_shuffle);
