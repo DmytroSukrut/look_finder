@@ -113,12 +113,8 @@ export default function FindPage(){
     }, [data, page]);
 
     async function fetch_clothes(category, sex, bust, waist, hip) {
-        const url_to_fetch = new URL('/api/clothes/filter');
-        url_to_fetch.searchParams.append('category', category);
-        url_to_fetch.searchParams.append('sex', sex);
-        url_to_fetch.searchParams.append('bust', bust);
-        url_to_fetch.searchParams.append('waist', waist);
-        url_to_fetch.searchParams.append('hip', hip);
+        const url_to_fetch =
+            `/api/clothes/filter?category=${encodeURIComponent(category)}&sex=${encodeURIComponent(sex)}&bust=${encodeURIComponent(bust)}&waist=${encodeURIComponent(waist)}&hip=${encodeURIComponent(hip)}`;
 
         try {
             const controller = new AbortController();
