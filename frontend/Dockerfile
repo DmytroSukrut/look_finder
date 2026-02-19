@@ -2,10 +2,10 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 COPY package*.json ./
-RUN pnpm ci
+RUN npm ci
 
 COPY . .
-RUN pnpm run build
+RUN npm run build
 
 FROM nginx:1.27-alpine
 WORKDIR /usr/share/nginx/html

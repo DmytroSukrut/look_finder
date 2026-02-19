@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.*;
 
 import okhttp3.*;
@@ -22,6 +23,33 @@ public class BershkaService {
     private final UrlCreatorBershka urlCreator;
     private final CategoryIdFinderBershka idFinder;
     private final BershkaSizeSelector  sizeSelector;
+
+    private final CookieJar cookieJar = new CookieJar() {
+        private final Map<String, List<Cookie>> store = new HashMap<>();
+
+        @Override
+        public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+            store.put(url.host(), cookies);
+        }
+
+        @Override
+        public List<Cookie> loadForRequest(HttpUrl url) {
+            return store.getOrDefault(url.host(), Collections.emptyList());
+        }
+    };
+
+    private final OkHttpClient client = new OkHttpClient.Builder()
+            .cookieJar(cookieJar)
+            .connectTimeout(Duration.ofSeconds(20))
+            .readTimeout(Duration.ofSeconds(40))
+            .writeTimeout(Duration.ofSeconds(20))
+            .followRedirects(true)
+            .build();
+
+    private static final String UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            + "AppleWebKit/537.36 (KHTML, like Gecko) "
+            + "Chrome/118.0.0.0 Safari/537.36";
+    // =========================
 
     public BershkaService(BershkaParcer parcer,  UrlCreatorBershka urlCreator,   CategoryIdFinderBershka idFinder, BershkaSizeSelector sizeSelector) {
         this.parcer = parcer;
@@ -45,6 +73,7 @@ public class BershkaService {
 
         List<String> categorys = new ArrayList<>(Arrays.asList(category_.split("\\+")));
 
+        warmUpSession();
 
         ObjectMapper mapper = new ObjectMapper();
         for (String category : categorys) {
@@ -62,20 +91,21 @@ public class BershkaService {
             // We are adding headers so the endpoint doesn't understand that we are making this request from code
             Request stock_req = new Request.Builder()
                     .url(url_stock)
-                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                            + "AppleWebKit/537.36 (KHTML, like Gecko) "
-                            + "Chrome/118.0.0.0 Safari/537.36") // Header to tell that we are Google Chrome
-                    .header("Accept", "application/json, text/plain, */*") // We are excepting all information from the endpoint
+                    .header("User-Agent", UA)
+                    .header("Accept", "application/json, text/plain, */*")
                     .header("Accept-Language", "en-US,en;q=0.9")
-                    .header("Referer", "https://www.bershka.com/") // We are "coming" from Bershka website
-                    .header("Origin", "https://www.bershka.com") // We are "coming" from Bershka website
+                    .header("Referer", "https://www.bershka.com/")
+                    .header("Origin", "https://www.bershka.com")
                     .header("Connection", "keep-alive")
-                    .header("DNT", "1") // Don't track me!
-                    // These 3 further headers just need to be (-_-)
+                    .header("DNT", "1")
                     .header("Sec-Ch-Ua", "\"Google Chrome\";v=\"118\", \"Chromium\";v=\"118\", \"Not=A?Brand\";v=\"99\"")
                     .header("Sec-Ch-Ua-Mobile", "?0")
                     .header("Sec-Fetch-Site", "same-origin")
-                    .build(); // End building a request
+                    // CHANGED: добавим браузерные CORS заголовки (часто помогают)
+                    .header("Sec-Fetch-Mode", "cors")
+                    .header("Sec-Fetch-Dest", "empty")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    .build();
 
             String response_body;
             // Our Client sends our response, and we are waiting for the answer
@@ -103,20 +133,21 @@ public class BershkaService {
             // Same creating request, but to get all info for products we extracted previously
             Request products_req = new Request.Builder()
                     .url(url_products)
-                    .header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                            + "AppleWebKit/537.36 (KHTML, like Gecko) "
-                            + "Chrome/118.0.0.0 Safari/537.36") // Header to tell that we are Google Chrome
-                    .header("Accept", "application/json, text/plain, */*") // We are excepting all information from the endpoint
+                    .header("User-Agent", UA)
+                    .header("Accept", "application/json, text/plain, */*")
                     .header("Accept-Language", "en-US,en;q=0.9")
-                    .header("Referer", "https://www.bershka.com/") // We are "coming" from Bershka website
-                    .header("Origin", "https://www.bershka.com") // We are "coming" from Bershka website
+                    .header("Referer", "https://www.bershka.com/")
+                    .header("Origin", "https://www.bershka.com")
                     .header("Connection", "keep-alive")
-                    .header("DNT", "1") // Don't track me!
-                    // These 3 further headers just need to be (-_-)
+                    .header("DNT", "1")
                     .header("Sec-Ch-Ua", "\"Google Chrome\";v=\"118\", \"Chromium\";v=\"118\", \"Not=A?Brand\";v=\"99\"")
                     .header("Sec-Ch-Ua-Mobile", "?0")
                     .header("Sec-Fetch-Site", "same-origin")
-                    .build(); // End building a request
+                    // CHANGED: добавим браузерные CORS заголовки
+                    .header("Sec-Fetch-Mode", "cors")
+                    .header("Sec-Fetch-Dest", "empty")
+                    .header("Accept-Encoding", "gzip, deflate, br")
+                    .build();
 
             // Same as before. Sends a request and gets a response
             try (Response products_resp = client.newCall(products_req).execute()) {
@@ -154,6 +185,27 @@ public class BershkaService {
         }
 
         return jsons_for_shuffle;
+    }
+
+    private void warmUpSession() {
+        Request warm = new Request.Builder()
+                .url("https://www.bershka.com/")
+                .header("User-Agent", UA)
+                .header("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8")
+                .header("Accept-Language", "en-US,en;q=0.9")
+                .header("Upgrade-Insecure-Requests", "1")
+                .header("Sec-Fetch-Dest", "document")
+                .header("Sec-Fetch-Mode", "navigate")
+                .header("Sec-Fetch-Site", "none")
+                .header("Sec-Fetch-User", "?1")
+                .build();
+
+        try (Response resp = client.newCall(warm).execute()) {
+            ResponseBody body = resp.body();
+            if (body != null) body.close();
+        } catch (Exception ignored) {
+            // если не получилось — просто продолжаем, основной запрос сам покажет код
+        }
     }
 
     /**
