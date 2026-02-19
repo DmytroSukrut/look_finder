@@ -88,36 +88,43 @@
     "sizes": [
       {
         "size": "XXS",
+        "bust": 81,
         "waist": 81,
         "hip": 81
       },
       {
         "size": "XS",
+        "bust": 87,
         "waist": 87,
         "hip": 87
       },
       {
         "size": "S",
+        "bust": 93,
         "waist": 93,
         "hip": 93
       },
       {
         "size": "M",
+        "bust": 99,
         "waist": 99,
         "hip": 99
       },
       {
         "size": "L",
+        "bust": 105,
         "waist": 105,
         "hip": 105
       },
       {
         "size": "XL",
+        "bust": 111,
         "waist": 111,
         "hip": 111
       },
       {
         "size": "XXL",
+        "bust": 117,
         "waist": 117,
         "hip": 117
       }

@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')).render(
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<MainPage />} />
-                    <Route path="/find" element={<FindPage />} />
+                    <Route path="/find/:cat" element={<FindPage />} />
                     <Route path="/favorites" element={<FavoritePage />} />
                     <Route path="/user_operations" element={<UserOperationsPage />} />
                 </Routes>

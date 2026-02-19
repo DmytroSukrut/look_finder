@@ -1,0 +1,261 @@
+[
+  {
+    "sex": "f",
+    "orientation": "top",
+    "sizes": [
+      {
+        "size": "XXS",
+        "bust": 75,
+        "waist": 57,
+        "hip": 84
+      },
+      {
+        "size": "XS",
+        "bust": 80,
+        "waist": 62,
+        "hip": 89
+      },
+      {
+        "size": "S",
+        "bust": 85,
+        "waist": 67,
+        "hip": 94
+      },
+      {
+        "size": "M",
+        "bust": 90,
+        "waist": 72,
+        "hip": 99
+      },
+      {
+        "size": "L",
+        "bust": 95,
+        "waist": 77,
+        "hip": 104
+      },
+      {
+        "size": "XL",
+        "bust": 100,
+        "waist": 82,
+        "hip": 109
+      },
+      {
+        "size": "XXL",
+        "bust": 105,
+        "waist": 87,
+        "hip": 114
+      }
+    ]
+  },
+  {
+    "sex": "f",
+    "orientation": "bottomD",
+    "sizes": [
+      {
+        "size": "32",
+        "waist": 57,
+        "hip": 84
+      },
+      {
+        "size": "34",
+        "waist": 61,
+        "hip": 88
+      },
+      {
+        "size": "36",
+        "waist": 65,
+        "hip": 92
+      },
+      {
+        "size": "38",
+        "waist": 69,
+        "hip": 96
+      },
+      {
+        "size": "40",
+        "waist": 73,
+        "hip": 100
+      },
+      {
+        "size": "42",
+        "waist": 77,
+        "hip": 104
+      },
+      {
+        "size": "44",
+        "waist": 81,
+        "hip": 108
+      }
+    ]
+  },
+  {
+    "sex": "f",
+    "orientation": "bottomS",
+    "sizes": [
+      {
+        "size": "XXS",
+        "waist": 57,
+        "hip": 84
+      },
+      {
+        "size": "XS",
+        "waist": 63,
+        "hip": 90
+      },
+      {
+        "size": "S",
+        "waist": 69,
+        "hip": 96
+      },
+      {
+        "size": "M",
+        "waist": 75,
+        "hip": 102
+      },
+      {
+        "size": "L",
+        "waist": 81,
+        "hip": 108
+      },
+      {
+        "size": "XL",
+        "waist": 87,
+        "hip": 114
+      },
+      {
+        "size": "XXL",
+        "waist": 93,
+        "hip": 120
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "orientation": "top",
+    "sizes": [
+      {
+        "size": "XS",
+        "bust": 93,
+        "waist": 83,
+        "hip": 96
+      },
+      {
+        "size": "S",
+        "bust": 97,
+        "waist": 87,
+        "hip": 99
+      },
+      {
+        "size": "M",
+        "bust": 101,
+        "waist": 91,
+        "hip": 102
+      },
+      {
+        "size": "L",
+        "bust": 105,
+        "waist": 95,
+        "hip": 105
+      },
+      {
+        "size": "XL",
+        "bust": 109,
+        "waist": 99,
+        "hip": 108
+      },
+      {
+        "size": "XXL",
+        "bust": 113,
+        "waist": 103,
+        "hip": 111
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "orientation": "bottomD",
+    "sizes": [
+      {
+        "size": "28",
+        "waist": 72,
+        "hip": 95
+      },
+      {
+        "size": "29",
+        "waist": 75,
+        "hip": 95
+      },
+      {
+        "size": "30",
+        "waist": 77,
+        "hip": 95
+      },
+      {
+        "size": "31",
+        "waist": 80,
+        "hip": 96
+      },
+      {
+        "size": "32",
+        "waist": 82,
+        "hip": 98
+      },
+      {
+        "size": "33",
+        "waist": 85,
+        "hip": 99
+      },
+      {
+        "size": "34",
+        "waist": 87,
+        "hip": 101
+      },
+      {
+        "size": "36",
+        "waist": 92,
+        "hip": 104
+      },
+      {
+        "size": "38",
+        "waist": 98,
+        "hip": 108
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "orientation": "bottomS",
+    "sizes": [
+      {
+        "size": "XS",
+        "waist": 83,
+        "hip": 96
+      },
+      {
+        "size": "S",
+        "waist": 87,
+        "hip": 99
+      },
+      {
+        "size": "M",
+        "waist": 91,
+        "hip": 102
+      },
+      {
+        "size": "L",
+        "waist": 95,
+        "hip": 105
+      },
+      {
+        "size": "XL",
+        "waist": 99,
+        "hip": 108
+      },
+      {
+        "size": "XXL",
+        "waist": 103,
+        "hip": 111
+      }
+    ]
+  }
+]

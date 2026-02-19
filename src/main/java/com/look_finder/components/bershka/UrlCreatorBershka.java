@@ -1,4 +1,4 @@
-package com.look_finder.components.parcers;
+package com.look_finder.components.bershka;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,0 +1,112 @@
+[
+  {
+    "sex": "f",
+    "category_urls": [
+      {
+        "name": "jeans",
+        "category_id": "Jeans%2CWCA03004%2CWCA03046%2CWCA03051%2CWCA03068%2CWCA03086%2CWCA03044%2CWCA04011%2CWCA00181%2CWCA03040&",
+        "orientation": "bottom"
+      },
+      {
+        "name": "jackets",
+        "category_id": "jacken_westen_maentel%2CWCA01111%2CWCA01112%2CWCA01114%2CWCA01113%2CWCA01115&",
+        "orientation": "top"
+      },
+      {
+        "name": "trousers",
+        "category_id": "Hosen%2CWCA00172%2CWCA00173%2CWCA00171&",
+        "orientation": "bottom"
+      },
+      {
+        "name": "dresses_and_jumpsuits",
+        "category_id": "kleider_jumpsuits%2CWCA00151%2CWCA00152%2CWCA00154%2CWCA00153%2CWCA00155&",
+        "orientation": "top"
+      },
+      {
+        "name": "sweatshirts_and_hoodies",
+        "category_id": "Sweatshirts%2CWCA00131%2CWCA00132&",
+        "orientation": "top"
+      },
+      {
+        "name": "tops_and_bodysuits",
+        "category_id": "WCA00110&+WCA03032&",
+        "orientation": "top"
+      },
+      {
+        "name": "t_shirts",
+        "category_id": "WCA00112&+WCA00111&",
+        "orientation": "top"
+      },
+      {
+        "name": "shirts_and_blouses",
+        "category_id": "Blusen%2CWCA03021%2CWCA03020%2CWCA00121&",
+        "orientation": "top"
+      },
+      {
+        "name": "knitwear",
+        "category_id": "Strick%2CWCA00142%2CWCA00141%2CWCA03085&",
+        "orientation": "top"
+      },
+      {
+        "name": "skirts",
+        "category_id": "roecke%2CWCA00161%2CWCA00162%2CWCA00163%2CWCA03074&",
+        "orientation": "bottom"
+      },
+      {
+        "name": "shorts_and_bermudas",
+        "category_id": "Shorts%2CWCA00193&",
+        "orientation": "bottom"
+      },
+      {
+        "name": "swimwear",
+        "category_id": "Bademode%2CWCA03025%2CWCA01141&",
+        "orientation": "top"
+      }
+    ]
+  },
+  {
+    "sex": "m",
+    "category_urls": [
+      {
+        "name": "jeans",
+        "category_id": "denim%2CWCA02246%2CWCA03049%2CWCA04008%2CWCA03039%2CWCA02241%2CWCA02243%2CWCA03048%2CWCA02242%2CWCA02244&",
+        "orientation": "bottom"
+      },
+      {
+        "name": "jackets",
+        "category_id": "Jacken%2CWCA02233%2CWCA02232%2CWCA03029%2CWCA02231&",
+        "orientation": "top"
+      },
+      {
+        "name": "sweatshirts_and_hoodies",
+        "category_id": "sweatshirts_pullover%2CWCA02221%2CWCA02222%2CWCA02224&",
+        "orientation": "top"
+      },
+      {
+        "name": "sweaters_and_cardigans",
+        "category_id": "WCA02224&",
+        "orientation": "top"
+      },
+      {
+        "name": "trousers",
+        "category_id": "Hosen%2CWCA02252%2CWCA02251%2CWCA02253&",
+        "orientation": "bottom"
+      },
+      {
+        "name": "t_shirts",
+        "category_id": "T-Shirts%2CWCA00221%2CWCA00223%2CWCA00222%2CWCA00220&",
+        "orientation": "top"
+      },
+      {
+        "name": "shirts",
+        "category_id": "Hemden%2CWCA02211&",
+        "orientation": "top"
+      },
+      {
+        "name": "shorts",
+        "category_id": "WCA03031&",
+        "orientation": "bottom"
+      }
+    ]
+  }
+]

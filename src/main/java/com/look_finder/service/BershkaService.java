@@ -2,10 +2,10 @@ package com.look_finder.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.look_finder.components.parcers.BershkaParcer;
-import com.look_finder.components.parcers.UrlCreatorBershka;
-import com.look_finder.components.parcers.CategoryIdFinderBershka;
-import com.look_finder.components.selector.BershkaSizeSelector;
+import com.look_finder.components.bershka.BershkaParcer;
+import com.look_finder.components.bershka.UrlCreatorBershka;
+import com.look_finder.components.bershka.CategoryIdFinderBershka;
+import com.look_finder.components.bershka.BershkaSizeSelector;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class BershkaService {
      * @return parsed JSON with all necessary information for display
      * @throws IOException if we have a problem fetching bershka data throws exception
      * */
-    public Object getAndParseJSON(String category_, String sex, int bust, int waist, int hip) throws IOException {
+    public List<List<Map<String, Object>>> getAndParseBershkaJSON(String category_, String sex, int bust, int waist, int hip) throws IOException {
 
         List<List<Map<String, Object>>> jsons_for_shuffle = new ArrayList<>();
 
@@ -99,7 +99,6 @@ public class BershkaService {
              * */
             String url_products = urlCreator.CreateUrl(response_body, cat_id);
 
-            System.out.println(url_products);
 
             // Same creating request, but to get all info for products we extracted previously
             Request products_req = new Request.Builder()
@@ -145,145 +144,16 @@ public class BershkaService {
 
             temp = sizeSelector.SelectSize(sex, orientation, bust, waist, hip);
             String[] sizes = temp.split("\\+");
-            String sizeD = sizes[0];
-            String sizeS = sizes[1];
+            String error = sizes[0];
+            String sizeD = sizes[1];
+            String sizeS = sizes[2];
 
-            List<Map<String, Object>> parsed_json = parcer.parse(response_body, sizeD, sizeS);
+            List<Map<String, Object>> parsed_json = parcer.parse(response_body, sizeD, sizeS, error);
 
             jsons_for_shuffle.add(parsed_json);
         }
 
-        /*
-         * INTERLEAVING SHUFFLE MECHANISM
-         * -------------------------------
-         * This algorithm takes multiple JSON lists (jsons_for_shuffle) and mixes their
-         * elements together randomly while preserving the original order *inside* each list.
-         *
-         * Example:
-         *   JSON0: B1 B2 B3 B4
-         *   JSON1: C1 C2 C3
-         *
-         * After shuffling:
-         *   B1 C1 B2 B3 C2 B4 C3
-         *
-         * How it works:
-         * 1. Build a flat list of JSON indices where each index appears as many times
-         *    as there are items in that JSON (this controls the final proportions).
-         *
-         * 2. Shuffle this index list with a seeded Random — this defines the interleaving order.
-         *
-         * 3. Use a "memory" array to track which element of each JSON should be taken next.
-         *
-         * 4. Read through the shuffled indices and pull elements from each JSON in order.
-         *
-         * The result is a deterministic, stable interleaving shuffle.
-         */
-
-        List<Map<String, Object>> shuffled_json = new ArrayList<>();
-        List<Integer> memory_int = new ArrayList<>();
-
-        if (jsons_for_shuffle.size() > 1) {
-            //shuffle function
-            List<Integer> random_positions_by_seed = new ArrayList<>();
-
-            // 1. Build a flat list of JSON indices based on sizes.
-            for (int i = 0; i < jsons_for_shuffle.size(); i++) {
-                // Repeat index 'i' as many times as JSON i has elements.
-                for (int j = 0; j < jsons_for_shuffle.get(i).size(); j++) {
-                    random_positions_by_seed.add(i);
-                }
-            }
-
-            // 2. Shuffle these indices using a deterministic seed.
-            Collections.shuffle(random_positions_by_seed, new Random(1406200820));
-
-            // 3. Memory will remember here on which position we are in each JSON in jsons_for_shufle
-            // initialize memory with zeros for each JSON file
-            for (int i = 0; i < jsons_for_shuffle.size(); i++) {
-                memory_int.add(0);
-            }
-
-            // 4. Build final shuffled JSON
-            for (int rand : random_positions_by_seed) {
-
-                int current_position_in_json = memory_int.get(rand);
-
-                // Add the next element from the selected source JSON.
-                shuffled_json.add(jsons_for_shuffle.get(rand).get(current_position_in_json));
-                memory_int.set(rand, current_position_in_json + 1);
-            }
-
-        } else {
-            // If there's only one JSON, return it as-is (no shuffle needed).
-            shuffled_json = jsons_for_shuffle.get(0);
-        }
-
-        //Need to add a duplicate checker because apparently Bershka can add some positions in both of their categorys
-
-        Set<String> memory_str = new HashSet<>();
-        Iterator<Map<String,Object>> shuffled_json_iterator = shuffled_json.iterator();
-
-        while(shuffled_json_iterator.hasNext()) {
-            Map<String,Object> current = shuffled_json_iterator.next();
-            String id = current.get("id").toString();
-
-//          IF YOU HAVE TIME TRY TO ADD HASHSET IN ORIGINAL CODE
-//          memory_str.add(id)
-//          returns:
-//          true  → id was NOT in the set (new item)
-//          false → id already existed (duplicate!)
-            if(!memory_str.add(id)){
-                shuffled_json_iterator.remove();
-            }
-        }
-
-        //PAGE DIVIDER MECHANISM
-
-        List<Map<String, Object>> divided_json = new ArrayList<>();
-
-        System.out.println("shfled length: " + shuffled_json.size());
-
-        float float_shuffled_length_divided = (float) shuffled_json.size() / 24;
-
-        System.out.println("float_shuffled_length_divided: " + float_shuffled_length_divided);
-
-        int page_quantity = (int) Math.ceil(float_shuffled_length_divided);
-
-
-        for (int i = 1; i <= page_quantity; i++) {
-            Map<String, Object> one_page = new HashMap<>();
-            List<Map<String, Object>> one_page_products = new ArrayList<>();
-
-            one_page.put("Page", i);
-
-            int iterations = 24;
-
-            if ((iterations * i) > shuffled_json.size()) {
-                iterations = shuffled_json.size() - ((i - 1) * 24);
-            }
-
-            for (int n = 0; n < iterations; n++) {
-                one_page_products.add(shuffled_json.get(n + (24 * (i - 1))));
-            }
-            one_page.put("products", one_page_products);
-            divided_json.add(one_page);
-        }
-
-        System.out.println("ready_json: \n" + divided_json);
-
-        Path jsonDir = Path.of("src/main/resources/json");
-        Files.createDirectories(jsonDir);
-
-        Path filePath = jsonDir.resolve("shuffled_bershka.json");
-        Path filePath2 = jsonDir.resolve("divided_bershka.json");
-
-        String prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(shuffled_json);
-        String prettyJson2 = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(divided_json);
-        Files.writeString(filePath, prettyJson);
-        Files.writeString(filePath2, prettyJson2);
-
-
-        return shuffled_json;
+        return jsons_for_shuffle;
     }
 
     /**
@@ -297,7 +167,6 @@ public class BershkaService {
         url.append(category_id);
 
         url.append("/stock");
-        System.out.println(url);
         return url.toString();
     }
 }

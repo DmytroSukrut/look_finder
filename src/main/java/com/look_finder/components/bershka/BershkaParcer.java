@@ -1,4 +1,4 @@
-package com.look_finder.components.parcers;
+package com.look_finder.components.bershka;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,13 +20,20 @@ public class BershkaParcer {
      * @param sizeD Size in digits
      * @param sizeS Size as Text
      * */
-    public List<Map<String, Object>> parse(String json, String sizeD, String sizeS) {
-        String[] temp = {"a4o", "b1", "p1", "a2d", "a1t"}; //array of photo codes we need to get
+    public List<Map<String, Object>> parse(String json, String sizeD, String sizeS, String error) {
+        String[] temp = {"a4o", "b1", "a2d", "a1t"}; //array of photo codes we need to get
+        String display_photo_code = "p1";
         Set<String> photos_originalName = new HashSet<>(Arrays.asList(temp)); // Same array but as Set
 
         try {
             JsonNode root = mapper.readTree(json);
             List<Map<String, Object>> positions = new ArrayList<>();
+
+            Map<String, Object> error_map = new HashMap<>();
+            error_map.put("origin", "Bershka");
+            error_map.put("error", error);
+            positions.add(error_map);
+
             for (JsonNode product : root.path("products")) {
                 /*
                 * This code there loops through all the products.
@@ -35,8 +42,6 @@ public class BershkaParcer {
                 * */
                 String name = product.path("name").asText(); // Saving product name
                 String name_en = product.path("nameEn").asText();
-                System.out.println(name);
-                System.out.println(name_en);
                 Map<Integer, String> colors_ids = new HashMap<>(); // Map for saving all colors available for the product
 
                 // for loop to save all the available colors
@@ -110,10 +115,8 @@ public class BershkaParcer {
                         restricted_colors.add(Integer.parseInt(color.path("id").asText()));
                     }
                 }
-                System.out.println("Restricted_colors: " + restricted_colors);
                 //If there is no such size, no sense to look further
                 if (!is_correct_found) {
-                    System.out.println("No size found");
                     continue;
                 }
 
@@ -124,8 +127,6 @@ public class BershkaParcer {
                     //----------------NAMES----------------
                     position.put("name", name);
                     position.put("name_en", product.path("nameEn").asText());
-                    System.out.println("name in for loop: " + name);
-                    System.out.println("name in for loop: " + name_en);
                     //----------------PRICE----------------
                     position.put("price", price);
 
@@ -152,21 +153,40 @@ public class BershkaParcer {
 
                             JsonNode xmediaItems = xmedia.path("xmediaItems");
                             JsonNode firstMedias = xmediaItems.get(0);
+                            int photo_counter = 0;
+                            boolean has_display = false;
                             for (JsonNode photo_find : firstMedias.path("medias")) { //find all necessary photos
                                 String photo_name = photo_find.path("extraInfo").path("originalName").asText();
-                                if (photos_originalName.contains(photo_name)) {
+                                if (photo_name.equals(display_photo_code)) {
                                     Map<String, Object> photo_map = new HashMap<>();
-                                    photo_map.put(photo_name, photo_find.path("url"));
+                                    photo_map.put("display", photo_find.path("url"));
                                     photo_urls.add(photo_map);
+                                    has_display = true;
+                                    break;
+                                }
+                            }
+
+                            for (JsonNode photo_find : firstMedias.path("medias")) { //find all necessary photos
+                                String photo_name = photo_find.path("extraInfo").path("originalName").asText();
+                                if(photo_name.equals("a4o") && !has_display) {
+                                    Map<String, Object> photo_map = new HashMap<>();
+                                    photo_map.put("display", photo_find.path("url"));
+                                    photo_urls.add(photo_map);
+                                    has_display = true;
+                                } else if (photos_originalName.contains(photo_name)) {
+                                    Map<String, Object> photo_map = new HashMap<>();
+                                    photo_map.put(String.valueOf(photo_counter), photo_find.path("url"));
+                                    photo_urls.add(photo_map);
+                                    photo_counter++;
                                 }
                             }
                             position.put("id", product.path("id").asInt() + "_" + color_id);
                             position.put("photos", photo_urls);
+                            position.put("origin", "bershka");
                             break;
                         } else if(colors_ids.containsKey(color_id) && restricted_colors.contains(color_id)) { //Remove unneeded color
                             colors_ids.remove(color_id);
                             should_be_added_to_postions = false;
-                            System.out.println("False srabotal");
                             break;
                         }
                     }

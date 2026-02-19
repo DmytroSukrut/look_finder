@@ -49,7 +49,7 @@ export default function MainPage() {
     }, []);
 
     async function fetch_clothes(category, sex, bust, waist, hip) {
-        const url_to_fetch = new URL('http://localhost:8080/api/clothes/filter');
+        const url_to_fetch = new URL('/api/clothes/filter');
         url_to_fetch.searchParams.append('category', category);
         url_to_fetch.searchParams.append('sex', sex);
         url_to_fetch.searchParams.append('bust', bust);

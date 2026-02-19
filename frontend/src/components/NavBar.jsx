@@ -23,6 +23,26 @@ export const NavBar = () => {
         navigate("/user_operations");
     }
 
+    const build_link_to_find = (params) => {
+        const url_params = new URLSearchParams();
+
+        url_params.set("sex", params.sex);
+        url_params.set("bust", params.bust);
+        url_params.set("waist", params.waist);
+        url_params.set("hip", params.hip);
+        url_params.set("page", 1);
+
+        return `/find/${encodeURIComponent(params.cat)}?${url_params.toString()}`;
+    }
+
+    const latest_search = {
+        cat: "jeans",
+        sex: "f",
+        bust: "91",
+        waist: "69",
+        hip: "97"
+    }
+
     return (
         <HideOnScroll>
             <AppBar
@@ -85,7 +105,7 @@ export const NavBar = () => {
                                 }
                             }}
                             component={Link}
-                            to="/find"
+                            to = {build_link_to_find(latest_search)}
                         >
                             Find clothes
                         </Button>

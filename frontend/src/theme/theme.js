@@ -2,7 +2,7 @@ import { createTheme } from '@mui/material/styles';
 
 export const lightTheme = createTheme({
     typography: {
-        fontFamily: " 'Ubuntu', sans-serif",
+        fontFamily: " 'main-font', sans-serif",
     },
     palette: {
         mode: 'light',
@@ -24,6 +24,9 @@ export const lightTheme = createTheme({
         },
         background: {
             default: '#fffdf8',
+        },
+        error: {
+            main: '#ff004a',
         }
     },
     breakpoints: {
@@ -92,7 +95,7 @@ export const lightTheme = createTheme({
 
 export const darkTheme = createTheme({
     typography: {
-        fontFamily: " 'Ubuntu', sans-serif",
+        fontFamily: " 'main-font', sans-serif",
     },
     palette: {
         mode: 'dark',

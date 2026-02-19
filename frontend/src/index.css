@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+@font-face {
+  font-family: "main-font";
+  src: url("./assets/fonts/main_font.ttf") format("woff2");
+  font-weight: 100 900; /* ось це дає “будь-які” ваги */
+  font-style: normal;
+  font-display: swap;
+}
 
 body {
   margin: 0;

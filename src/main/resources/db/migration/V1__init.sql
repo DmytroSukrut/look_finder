@@ -1,10 +1,8 @@
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
-    id       INTEGER PRIMARY KEY,
+    id       BIGINT PRIMARY KEY,
     name     VARCHAR(100) NOT NULL,
     surname  VARCHAR(100) NOT NULL,
     email    VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    seed     VARCHAR(255)
-);
-
+    password VARCHAR(255) NOT NULL
+    );

@@ -56,7 +56,7 @@ export const FindAccordion = ({data, setData}) => {
     const renderClothes= () => {
         if (sex === "f"){
             return (
-                <RadioGroup defaultValue="jeans" onChange={(e) => setClothesType(e.target.value)} >
+                <RadioGroup defaultValue={clothesType} onChange={(e) => setClothesType(e.target.value)} >
                     <FormControlLabel value="jeans" control={<Radio sx={radioStyle}/>} label="JEANS" />
                     <FormControlLabel value="trousers" control={<Radio sx={radioStyle}/>} label="TROUSERS" />
                     <FormControlLabel value="skirts" control={<Radio sx={radioStyle}/>} label="SKIRTS" />
@@ -73,7 +73,7 @@ export const FindAccordion = ({data, setData}) => {
             )
         } else {
             return (
-                <RadioGroup defaultValue="jeans" onChange={(e) => setClothesType(e.target.value)} >
+                <RadioGroup defaultValue={clothesType} onChange={(e) => setClothesType(e.target.value)} >
                     <FormControlLabel value="jeans" control={<Radio sx={radioStyle}/>} label="JEANS" />
                     <FormControlLabel value="jackets+puffer_jackets" control={<Radio sx={radioStyle}/>} label="JACKETS" />
                     <FormControlLabel value="sweatshirts_and_hoodies" control={<Radio sx={radioStyle}/>} label="SWEATSHIRTS & HOODIES" />
@@ -174,7 +174,7 @@ export const FindAccordion = ({data, setData}) => {
                                     borderColor: theme.palette.text.primary,
                                 }}/>
                                 <RadioGroup
-                                    defaultValue="f"
+                                    defaultValue={sex}
                                     onChange={(e) => setSex(e.target.value)}
                                 >
                                     <FormControlLabel

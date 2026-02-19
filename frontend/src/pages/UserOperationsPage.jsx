@@ -53,7 +53,27 @@ export default function UserOperationsPage() {
 
             localStorage.setItem("user", JSON.stringify(save));
 
-            nav("/find")
+            const raw = localStorage.getItem("last_search");
+
+            if (raw) {
+                try {
+                    const last_search = JSON.parse(raw);
+
+                    const cat = last_search.cat ?? "jeans";
+                    const sex = last_search.sex ?? "f";
+                    const bust = last_search.bust ?? 91;
+                    const waist = last_search.waist ?? 69;
+                    const hip = last_search.hip ?? 97;
+
+                    nav(
+                        `/find/${encodeURIComponent(cat)}?sex=${encodeURIComponent(sex)}&bust=${bust}&waist=${waist}&hip=${hip}&page=1`
+                    );
+                } catch (e) {
+                    nav(`/find/jeans?sex=f&bust=91&waist=69&hip=97&page=1`);
+                }
+            } else {
+                nav(`/find/jeans?sex=f&bust=91&waist=69&hip=97&page=1`);
+            }
         }
     }
 
@@ -63,7 +83,7 @@ export default function UserOperationsPage() {
 
     async function fetch_register(name, surname, email, password) {
         try {
-            const response = await fetch("http://localhost:8080/api/user/register", {
+            const response = await fetch("/api/user/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -90,7 +110,7 @@ export default function UserOperationsPage() {
 
     async function fetch_login(email, password) {
         try {
-            const response = await fetch("http://localhost:8080/api/user/login", {
+            const response = await fetch("/api/user/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -183,6 +203,7 @@ export default function UserOperationsPage() {
                             <TextField
                                 id="password-login"
                                 label="Password"
+                                type="password"
                                 size="small"
                                 value={password_login}
                                 onChange={(e) => setPasswordLogin(e.currentTarget.value)}
@@ -299,6 +320,7 @@ export default function UserOperationsPage() {
                             <TextField
                                 id="password-register"
                                 label="Password"
+                                type="password"
                                 size="small"
                                 value={password_register}
                                 onChange={(e) => setPasswordRegister(e.target.value)}
@@ -306,7 +328,7 @@ export default function UserOperationsPage() {
                             />
                             <Button
                                 variant="outlined"
-                                onClick={() => handleUserOperations("log")}
+                                onClick={() => handleUserOperations("reg")}
                                 sx={{
                                 width: "100%",
                                 mt: 2,

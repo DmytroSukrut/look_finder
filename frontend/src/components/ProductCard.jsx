@@ -11,7 +11,7 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import {useState} from "react";
 import * as React from "react";
 
-export default function ProductCard ({ id, name, price, size, img_main, img_another,  isFavourite, brandName}){
+export default function ProductCard ({ id, name, price, size, img_display, img_all,  isFavourite, brandName}){
     const theme = useTheme();
     const [isFav, setIsFav] = useState(isFavourite);
 
@@ -38,6 +38,7 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                 flexDirection: "column",
                 borderRadius: 5,
                 transition: "0.5s ease-in-out",
+                height: "100%",
                 backgroundColor: theme.palette.primary.main,
                 "&:hover": {
                     transform: "scale(1.01)",
@@ -48,7 +49,7 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
             <Box sx={{position: "relative"}}>
                 <Box
                     component="img"
-                    src={img_main}
+                    src={img_display}
                     alt={name}
                     sx={{
                         width: "auto",
@@ -72,6 +73,9 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                     <StarBorderOutlinedIcon sx={{color: "gold", fontSize: 30}}/>
                 </IconButton>
             </Box>
+
+            <Box sx={{ flexGrow: 1 }} />
+
             <Box sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -89,6 +93,7 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                     {size}
                 </Typography>
             </Box>
+            <Box sx={{ flexGrow: 1 }} />
             <Box sx={{
                 display: "flex",
                 flexDirection: "row",
@@ -114,7 +119,7 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                     }}
                 />
             </Box>
-
+            <Box sx={{ flexGrow: 1 }} />
             <Button variant="contained"
                     onClick={handleClick}
                     sx={{
@@ -124,6 +129,9 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                     }}>
                 See more information
             </Button>
+
+
+
             <Popover
                 keepMounted
                 open={open}
@@ -152,8 +160,6 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                 <Paper elevation={8} sx={{
                     p: 2,
                     m: 2,
-                    // maxHeight: window.innerHeight * 0.8,
-                    // maxWidth: window.innerWidth * 0.7,
                     height: window.innerHeight * 0.8,
                     width: window.innerWidth * 0.7,
                     overflowY: "auto",
@@ -190,7 +196,7 @@ export default function ProductCard ({ id, name, price, size, img_main, img_anot
                                 className="swiper-container"
                                 style={{width: "100%", height: "100%"}}
                             >
-                                {img_another.map((url, index) => (
+                                {img_all.map((url, index) => (
                                     <SwiperSlide key={index} style={{borderRadius: 2}}>
                                         <Box
                                             component="img"
