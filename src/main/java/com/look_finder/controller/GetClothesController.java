@@ -56,6 +56,7 @@ public class GetClothesController {
             jsons_for_shuffle.addAll(temp_bershka);
         } catch (Exception e) {
             System.out.println("EXCEPTION");
+            System.out.println(e.getMessage());
         }
 
         System.out.println("WORKING ON NEW YORKER _______________");
