@@ -29,7 +29,8 @@ public class CategoryIdFinderBershka {
                 if (sex_.path("sex").asText().equals(sex)) {
                     for(JsonNode category_ : sex_.path("category_urls")){
                         if(category_.path("name").asText().equals(category)){
-                            return category_.path("category_id").asText() + "+" + category_.path("orientation").asText();
+                            return category_.path("orientation").asText();
+//                            return category_.path("category_id").asText() + "+" + category_.path("orientation").asText();
                         }
                     }
                 }

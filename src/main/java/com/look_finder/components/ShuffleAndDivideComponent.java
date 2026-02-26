@@ -19,16 +19,20 @@ public class ShuffleAndDivideComponent {
         JsonNode root = mapper.valueToTree(unprepared_);
 
         List<Map<String, Object>> error_list = new ArrayList<>();
-
+        List<String> errors_origin_list = new ArrayList<>();
 
         for (JsonNode jsons_from_shops : root) {
             Map<String, Object> error = new HashMap<>();
             String origin = jsons_from_shops.get(0).get("origin").asText();
             String error_ = jsons_from_shops.get(0).get("error").asText();
 
-            error.put("origin", origin);
-            error.put("error", error_);
-            error_list.add(error);
+            if(!errors_origin_list.contains(origin)) {
+                error.put("origin", origin);
+                error.put("error", error_);
+                error_list.add(error);
+
+                errors_origin_list.add(origin);
+            }
         }
 
         List<List<Map<String, Object>>> unprepared = new ArrayList<>();

@@ -2,8 +2,11 @@ package com.look_finder.components.bershka;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.look_finder.position.PositionEntity;
+import com.look_finder.position.PositionRepository;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -13,20 +16,22 @@ public class BershkaParcer {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
+    private final PositionRepository repository;
+
+    public BershkaParcer(PositionRepository repository) {
+        this.repository = repository;
+    }
 
     /**
      * This function parses down the original bershka JSON to a smaller version
      * @param json Original bershka JSON, which we get in "BershkaService" on endpoint
-     * @param sizeD Size in digits
-     * @param sizeS Size as Text
      * */
-    public List<Map<String, Object>> parse(String json, String sizeD, String sizeS, String error) {
+    public void parse(JsonNode json, String size, String error, String category, String sex) {
         String[] temp = {"a4o", "b1", "a2d", "a1t"}; //array of photo codes we need to get
         String display_photo_code = "p1";
         Set<String> photos_originalName = new HashSet<>(Arrays.asList(temp)); // Same array but as Set
 
         try {
-            JsonNode root = mapper.readTree(json);
             List<Map<String, Object>> positions = new ArrayList<>();
 
             Map<String, Object> error_map = new HashMap<>();
@@ -34,7 +39,7 @@ public class BershkaParcer {
             error_map.put("error", error);
             positions.add(error_map);
 
-            for (JsonNode product : root.path("products")) {
+            for (JsonNode product : json.path("products")) {
                 /*
                 * This code there loops through all the products.
                 * But further code which will be marked down loops through all colors available for the product
@@ -51,7 +56,6 @@ public class BershkaParcer {
                     colors_ids.put(id, color);
                 }
 
-
                 //----------------PRICE----------------
                 JsonNode firstBundle = product.path("bundleProductSummaries").get(0);
                 if (firstBundle == null) {
@@ -66,7 +70,7 @@ public class BershkaParcer {
                         .path("price").asText();
                 double price = Double.parseDouble(price_wrong) / 100; //Getting the correct price
 
-                String size = "";
+                String size_ = "";
                 //-----------SIZE AND COLORS-----------
                 boolean is_correct_found = false;//Check if there is a customers size
                 List<Map<String, Object>> colors_and_types = new ArrayList<>(); //Save necessary colors with customers size
@@ -90,18 +94,15 @@ public class BershkaParcer {
 
                         //Check if we found the requested size and decide it is a Digits or String size parameter
                         String foundSize = null;
-                        if (found_size.contains(sizeD)) {
+                        if (found_size.contains(size)) {
                             is_correct_found = true; // Set that size exists!
-                            foundSize = sizeD;
-                        } else if (found_size.contains(sizeS)) {
-                            is_correct_found = true; // Set that size exists!
-                            foundSize = sizeS;
+                            foundSize = size;
                         }
 
                         //Check if size is available
                         if (foundSize != null && size_finder.path("visibilityValue").asText().equals("SHOW")) {
                             found_correct_size = true;
-                            size = foundSize;
+                            size_ = foundSize;
 
                             // Save the available size
                             Map<String, Object> colorName = new HashMap<>();
@@ -117,9 +118,9 @@ public class BershkaParcer {
                 }
                 //If there is no such size, no sense to look further
                 if (!is_correct_found) {
+                    System.out.println("size not found");
                     continue;
                 }
-
                 //Create position for all the colors with available sizes
                 int n = colors_ids.size();
                 for (int i = 0; i < n; i++) {
@@ -180,7 +181,7 @@ public class BershkaParcer {
                                     photo_counter++;
                                 }
                             }
-                            position.put("id", product.path("id").asInt() + "_" + color_id);
+                            position.put("id", product.path("id").asInt() + "_" + color_id + "_" + size);
                             position.put("photos", photo_urls);
                             position.put("origin", "bershka");
                             break;
@@ -192,6 +193,37 @@ public class BershkaParcer {
                     }
                     //-------------ADD POSITION------------
                     if (should_be_added_to_postions) {
+
+                        PositionEntity positionEntity = new PositionEntity();
+
+                        System.out.println(position);
+
+                        positionEntity.setId(position.get("id").toString());
+                        positionEntity.setOrigin(position.get("origin").toString());
+                        positionEntity.setCategory(category);
+                        positionEntity.setSex(sex);
+                        positionEntity.setName(position.get("name").toString());
+
+                        String val = position.get("name_en").toString();
+                        positionEntity.setNameEn(val != null ? val : "not found");
+
+                        positionEntity.setPositionsColor(position.get("positions_color").toString());
+                        positionEntity.setSize(position.get("size").toString());
+                        positionEntity.setPrice(new BigDecimal(position.get("price").toString()));
+
+                        JsonNode photos = mapper.valueToTree(position.get("photos"));
+                        System.out.println("photos:\n" + photos);
+
+                        positionEntity.setDisplay(photos.get(0).path("display").asText("not found"));
+                        positionEntity.setPhoto0(photos.get(1).path("0").asText("not found"));
+                        positionEntity.setPhoto1(photos.get(2).path("1").asText("not found"));
+                        positionEntity.setPhoto2(photos.get(3).path("2").asText("not found"));
+                        positionEntity.setPhoto3(photos.get(4).path("3").asText("not found"));
+
+                        System.out.println("got here");
+
+                        repository.save(positionEntity);
+
                         positions.add(position);
                     }
                 }
@@ -207,10 +239,9 @@ public class BershkaParcer {
             Files.writeString(filePath, prettyJson);
 
 
-            return positions;
+//            return positions;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return null;
     }
 }

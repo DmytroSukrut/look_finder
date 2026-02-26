@@ -16,8 +16,8 @@ public class BershkaSizeSelector {
 
     public String SelectSize(String sex, String orientation, int bust, int waist, int hip) {
         String error = "none";
-        String sizeD = "-20";
-        String sizeS = "A";
+        String sizeD = "error";
+        String sizeS = "error";
 
         InputStream json = null;
         try {
@@ -49,14 +49,14 @@ public class BershkaSizeSelector {
                             if (Objects.equals(size, "less_min")) {
                                 error = size;
                                 sizeS = "XXS";
-                                System.out.println("got less min ||  " + sex + "_" + orientation);
+//                                System.out.println("got less min ||  " + sex + "_" + orientation);
                             } else if (Objects.equals(size, "over_max")) {
                                 error = size;
                                 sizeS = "XL";
-                                System.out.println("got over max ||  " + sex + "_" + orientation);
+//                                System.out.println("got over max ||  " + sex + "_" + orientation);
                             } else {
                                 sizeS = size;
-                                System.out.println("SIZE S: " + sizeS);
+//                                System.out.println("SIZE S: " + sizeS);
                             }
                         }
                         case "f_bottom" -> {
@@ -65,14 +65,14 @@ public class BershkaSizeSelector {
                             if (Objects.equals(size, "less_min")) {
                                 error = size;
                                 sizeD = "32";
-                                System.out.println("got less min ||  " + sex + "_" + orientation);
+//                                System.out.println("got less min ||  " + sex + "_" + orientation);
                             } else if (Objects.equals(size, "over_max")) {
                                 error = size;
                                 sizeD = "44";
-                                System.out.println("got over max ||  " + sex + "_" + orientation);
+//                                System.out.println("got over max ||  " + sex + "_" + orientation);
                             } else {
                                 sizeD = size;
-                                System.out.println("SIZE D: " + sizeD);
+//                                System.out.println("SIZE D: " + sizeD);
                             }
                         }
                         case "m_top" -> {
@@ -81,14 +81,14 @@ public class BershkaSizeSelector {
                             if (Objects.equals(size, "less_min")) {
                                 error = size;
                                 sizeS = "XXS";
-                                System.out.println("got less min ||  " + sex + "_" + orientation);
+//                                System.out.println("got less min ||  " + sex + "_" + orientation);
                             } else if (Objects.equals(size, "over_max")) {
                                 error = size;
                                 sizeS = "XXL";
-                                System.out.println("got over max ||  " + sex + "_" + orientation);
+//                                System.out.println("got over max ||  " + sex + "_" + orientation);
                             } else {
                                 sizeS = size;
-                                System.out.println("SIZE S: " + sizeS);
+//                                System.out.println("SIZE S: " + sizeS);
                             }
                         }
                         case "m_bottomD" -> {
@@ -97,17 +97,17 @@ public class BershkaSizeSelector {
                             if (Objects.equals(size, "less_min")) {
                                 error = size;
                                 sizeD = "34";
-                                System.out.println("got less min ||  " + sex + "_" + orientation);
+//                                System.out.println("got less min ||  " + sex + "_" + orientation);
                             } else if (Objects.equals(size, "over_max")) {
                                 error = size;
                                 sizeD = "48";
-                                System.out.println("got over max ||  " + sex + "_" + orientation);
+//                                System.out.println("got over max ||  " + sex + "_" + orientation);
                             } else {
                                 sizeD = size;
-                                System.out.println("SIZE D: " + sizeD);
+//                                System.out.println("SIZE D: " + sizeD);
                             }
                             orientation = "bottomS";
-                            System.out.println(orientation + " ||  " + sex + "_" + orientation);
+//                            System.out.println(orientation + " ||  " + sex + "_" + orientation);
                         }
                         case "m_bottomS" -> {
                             size = size_founder(sizes, false, 64, 81, 0, waist, hip, bust);
@@ -115,14 +115,14 @@ public class BershkaSizeSelector {
                             if (Objects.equals(size, "less_min")) {
                                 error = size;
                                 sizeS = "XS";
-                                System.out.println("got less min ||  " + sex + "_" + orientation);
+//                                System.out.println("got less min ||  " + sex + "_" + orientation);
                             } else if (Objects.equals(size, "over_max")) {
                                 error = size;
                                 sizeS = "XL";
-                                System.out.println("got over max ||  " + sex + "_" + orientation);
+//                                System.out.println("got over max ||  " + sex + "_" + orientation);
                             } else {
                                 sizeS = size;
-                                System.out.println("SIZE S: " + sizeS);
+//                                System.out.println("SIZE S: " + sizeS);
                             }
                         }
                     }
@@ -135,7 +135,7 @@ public class BershkaSizeSelector {
     }
 
     private boolean inRange(int value, int min, int max) {
-        System.out.printf("inRange(%d value, %d min, %d max)\n", value, min, max);
+//        System.out.printf("inRange(%d value, %d min, %d max)\n", value, min, max);
         return value >= min && value <= max;
     }
 
@@ -173,7 +173,7 @@ public class BershkaSizeSelector {
                         if(inRange(waist, prev_waist, current_waist)){
                             waist_selected_size = size_node.get("size").asText();
                             waist_iteration_count = iteration;
-                            System.out.println("FOUND");
+//                            System.out.println("FOUND");
                             break_for_loop = true;
                             break;
                         }
@@ -187,7 +187,7 @@ public class BershkaSizeSelector {
                         if(inRange(hip, prev_hip, current_hip)){
                             hip_selected_size = size_node.get("size").asText();
                             hip_iteration_count = iteration;
-                            System.out.println("FOUND");
+//                            System.out.println("FOUND");
                             break_for_loop = true;
                             break;
                         }
@@ -200,7 +200,7 @@ public class BershkaSizeSelector {
                         if(inRange(bust, prev_bust, current_bust)){
                             bust_selected_size = size_node.get("size").asText();
                             bust_iteration_count = iteration;
-                            System.out.println("FOUND");
+//                            System.out.println("FOUND");
                             break_for_loop = true;
                             break;
                         }
