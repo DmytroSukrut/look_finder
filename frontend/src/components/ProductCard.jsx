@@ -26,7 +26,7 @@ export default function ProductCard ({ id, name, price, size, img_display, img_a
     };
 
     const open = Boolean(anchorEl);
-
+    console.log(img_display);
 
     return (
         <Paper
