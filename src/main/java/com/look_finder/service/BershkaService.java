@@ -254,6 +254,8 @@ public class BershkaService {
             photos.add(photo);
         }
 
+        position.put("photos", photos);
+
         return position;
     }
 
