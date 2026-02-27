@@ -1,9 +1,6 @@
 package com.look_finder.position;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,8 +15,12 @@ import java.math.BigDecimal;
 public class PositionEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private String id;
+    private Long id;
+
+    @Column(name = "text_id", nullable = false)
+    private String text_id;
 
     @Column(name = "origin", nullable = false)
     private String origin;

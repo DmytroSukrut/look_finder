@@ -38,4 +38,13 @@ public class PutClothesController {
 
         return bershkaService.putAndParseBershkaJson(json, category, sex);
     }
+
+    @DeleteMapping("/clear")
+    public String clearClothes() throws IOException, InterruptedException
+    {
+
+        bershkaService.clear_repo();
+
+        return "clear";
+    }
 }

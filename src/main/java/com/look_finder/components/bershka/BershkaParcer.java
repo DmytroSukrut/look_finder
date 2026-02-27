@@ -30,7 +30,7 @@ public class BershkaParcer {
         String[] temp = {"a4o", "b1", "a2d", "a1t"}; //array of photo codes we need to get
         String display_photo_code = "p1";
         Set<String> photos_originalName = new HashSet<>(Arrays.asList(temp)); // Same array but as Set
-
+        System.out.println("entered_parser");
         try {
             List<Map<String, Object>> positions = new ArrayList<>();
 
@@ -38,6 +38,7 @@ public class BershkaParcer {
             error_map.put("origin", "Bershka");
             error_map.put("error", error);
             positions.add(error_map);
+
 
             for (JsonNode product : json.path("products")) {
                 /*
@@ -196,35 +197,35 @@ public class BershkaParcer {
 
                         PositionEntity positionEntity = new PositionEntity();
 
-                        System.out.println(position);
-
-                        positionEntity.setId(position.get("id").toString());
-                        positionEntity.setOrigin(position.get("origin").toString());
+                        positionEntity.setText_id(getStr(position, "id"));
+                        positionEntity.setOrigin(getStr(position, "origin"));
                         positionEntity.setCategory(category);
                         positionEntity.setSex(sex);
-                        positionEntity.setName(position.get("name").toString());
-
-                        String val = position.get("name_en").toString();
-                        positionEntity.setNameEn(val != null ? val : "not found");
-
-                        positionEntity.setPositionsColor(position.get("positions_color").toString());
-                        positionEntity.setSize(position.get("size").toString());
-                        positionEntity.setPrice(new BigDecimal(position.get("price").toString()));
+                        positionEntity.setName(getStr(position, "name"));
+                        positionEntity.setNameEn(getStr(position, "name_en"));
+                        positionEntity.setPositionsColor(getStr(position, "positions_color"));
+                        positionEntity.setSize(getStr(position, "size"));
+                        positionEntity.setPrice(getBigDecimal(position));
 
                         JsonNode photos = mapper.valueToTree(position.get("photos"));
-                        System.out.println("photos:\n" + photos);
+
+                        if(photos.isEmpty()) {
+                            break;
+                        }
 
                         positionEntity.setDisplay(photos.get(0).path("display").asText("not found"));
-                        positionEntity.setPhoto0(photos.get(1).path("0").asText("not found"));
-                        positionEntity.setPhoto1(photos.get(2).path("1").asText("not found"));
-                        positionEntity.setPhoto2(photos.get(3).path("2").asText("not found"));
-                        positionEntity.setPhoto3(photos.get(4).path("3").asText("not found"));
+                        positionEntity.setPhoto0(photos.size() >= 2 ? photos.get(1).path("0").asText("not found") : "not found");
+                        positionEntity.setPhoto1(photos.size() >= 3 ? photos.get(2).path("1").asText("not found") : "not found");
+                        positionEntity.setPhoto2(photos.size() >= 4 ? photos.get(3).path("2").asText("not found") : "not found");
+                        positionEntity.setPhoto3(photos.size() >= 5 ? photos.get(4).path("3").asText("not found") : "not found");
 
                         System.out.println("got here");
 
                         repository.save(positionEntity);
 
                         positions.add(position);
+                    } else {
+                        System.out.println("worked shouldnt be added");
                     }
                 }
             }
@@ -244,4 +245,22 @@ public class BershkaParcer {
             System.out.println(e.getMessage());
         }
     }
+
+    private static String getStr(Map<String, Object> m, String key) {
+        Object v = m.get(key);
+        if (v == null) return "not found";
+        String s = v.toString();
+        return s.isBlank() ? "not found" : s;
+    }
+
+    private static BigDecimal getBigDecimal(Map<String, Object> m) {
+        Object v = m.get("price");
+        if (v == null) return BigDecimal.ZERO;
+        try {
+            return new BigDecimal(v.toString());
+        } catch (Exception e) {
+            return BigDecimal.ZERO;
+        }
+    }
+
 }

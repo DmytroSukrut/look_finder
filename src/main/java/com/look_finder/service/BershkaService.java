@@ -87,7 +87,6 @@ public class BershkaService {
                     repository.findByCategoryAndSexAndSize(category, sex, size)
                             .stream()
                             .map(this::from_entity_to_map)
-                            .peek(m -> System.out.println("Map!\n" + m))
                             .forEach(category_positions::add);
                 }
             }
@@ -255,22 +254,7 @@ public class BershkaService {
             photos.add(photo);
         }
 
-        position.put("photos", photos);
         return position;
-    }
-
-    /**
-     * This private function creates url to bershka stocks
-     * @param category_id Specific category id
-     * @return url to fetch or that we send bad data
-     * */
-    private String createUrlStock(String category_id) {
-        StringBuilder url = new StringBuilder("https://www.bershka.com/itxrest/2/catalog/store/45109545/40259564/category/");
-
-        url.append(category_id);
-
-        url.append("/stock");
-        return url.toString();
     }
 
     public String putAndParseBershkaJson(JsonNode json, String category, String sex){
@@ -280,15 +264,17 @@ public class BershkaService {
         int iteration_count = 1;
         String orientation_for_loop = orientation;
 
-        if (Objects.equals(sex, "m") && Objects.equals(category, "bottom")) {
+        if (Objects.equals(sex, "m") && Objects.equals(orientation, "bottom")) {
             orientation_for_loop = orientation + "D";
+            System.out.println(orientation_for_loop);
             iteration_count = 2;
         }
-        repository.deleteAll();
+
         for (int i = 1; i <= iteration_count; i++) {
             if (i > 1) orientation_for_loop = orientation + "S";
-            List<String> sizes = getSizes(orientation, sex);
+            List<String> sizes = getSizes(orientation_for_loop, sex);
 
+            assert sizes != null;
             for (String size : sizes) {
                 System.out.println(size);
                 parcer.parse(json, size, "none", category, sex);
@@ -329,4 +315,9 @@ public class BershkaService {
         }
         return null;
     }
+
+    public void clear_repo(){
+        repository.deleteAll();
+    }
+
 }
