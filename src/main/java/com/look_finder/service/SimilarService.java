@@ -31,8 +31,9 @@ public class SimilarService {
 
         List<Map<String, Object>> similar_positions = new ArrayList<>();
 
-        positionRepository.findSimilarProducts(queryEmbedding, limit, "36", "f")
+        positionRepository.findSimilarProducts(queryEmbedding, "36", "f")
                 .stream()
+                .limit(limit)
                 .map(this::from_entity_to_map)
                 .forEach(similar_positions::add);
 

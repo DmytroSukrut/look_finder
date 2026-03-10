@@ -31,10 +31,8 @@ public interface PositionRepository extends JpaRepository<PositionEntity, Long> 
             and size = :size
             and sex = :sex
         order by embedding <=> cast(:queryEmbedding as vector)
-        limit :limit
     """, nativeQuery = true)
     List<PositionEntity> findSimilarProducts(@Param("queryEmbedding") String queryEmbedding,
-                                             @Param("limit") int limit,
                                              @Param("size") String size,
                                              @Param("sex") String sex);
 }
