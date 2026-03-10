@@ -40,7 +40,7 @@ export default function ProductGrid({ products = [], title = "Special for you"})
 
                         const all_urls = [...display, ...others];
                         return (
-                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2, xxl: 1}} key={product.id}>
+                            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3, xl: 2, xxl: 2}} key={product.id}>
                                 <ProductCard
                                     id={product.id}
                                     img_display={display}

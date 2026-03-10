@@ -2,6 +2,9 @@ package com.look_finder.components.bershka;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.look_finder.data_base.EmbeddingService;
+import com.look_finder.data_base.EmbedingDTO;
+import com.look_finder.data_base.PgVectorUtil;
 import com.look_finder.position.PositionEntity;
 import com.look_finder.position.PositionRepository;
 import org.springframework.stereotype.Component;
@@ -17,9 +20,11 @@ public class BershkaParcer {
     private final ObjectMapper mapper = new ObjectMapper();
 
     private final PositionRepository repository;
+    private final EmbeddingService embeddingService;
 
-    public BershkaParcer(PositionRepository repository) {
+    public BershkaParcer(PositionRepository repository, EmbeddingService embeddingService) {
         this.repository = repository;
+        this.embeddingService = embeddingService;
     }
 
     /**
@@ -219,9 +224,25 @@ public class BershkaParcer {
                         positionEntity.setPhoto2(photos.size() >= 4 ? photos.get(3).path("2").asText("not found") : "not found");
                         positionEntity.setPhoto3(photos.size() >= 5 ? photos.get(4).path("3").asText("not found") : "not found");
 
-                        System.out.println("got here");
+                        PositionEntity saved_entity = repository.save(positionEntity);
 
-                        repository.save(positionEntity);
+                        EmbedingDTO embedingDTO = new EmbedingDTO(
+                                positionEntity.getName(),
+                                positionEntity.getOrigin(),
+                                positionEntity.getPositionsColor(),
+                                positionEntity.getSize(),
+                                positionEntity.getSex(),
+                                positionEntity.getCategory());
+
+                        var embedding_result = embeddingService.embed(embedingDTO);
+
+                        String vector_for_db = PgVectorUtil.float_to_string(embedding_result.vector());
+
+                        repository.updateEmbedding(
+                                saved_entity.getId(),
+                                vector_for_db,
+                                embedding_result.embeddingText()
+                        );
 
                         positions.add(position);
                     } else {

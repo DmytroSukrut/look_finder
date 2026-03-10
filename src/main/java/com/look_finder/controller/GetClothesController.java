@@ -4,6 +4,7 @@ package com.look_finder.controller;
 import com.look_finder.components.ShuffleAndDivideComponent;
 import com.look_finder.service.BershkaService;
 import com.look_finder.service.NewYorkerService;
+import com.look_finder.service.SimilarService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,12 +21,14 @@ public class GetClothesController {
 
     private final BershkaService service_bershka;
     private final NewYorkerService service_newyorker;
+    private final SimilarService service_similar;
 
     private final ShuffleAndDivideComponent controller_shuffle;
 
-    public GetClothesController(BershkaService service_bershka, NewYorkerService service_newyorker, ShuffleAndDivideComponent controller_shuffle) {
+    public GetClothesController(BershkaService service_bershka, NewYorkerService service_newyorker, SimilarService serviceSimilar, ShuffleAndDivideComponent controller_shuffle) {
         this.service_bershka = service_bershka;
         this.service_newyorker = service_newyorker;
+        this.service_similar = serviceSimilar;
         this.controller_shuffle = controller_shuffle;
     }
 
@@ -65,5 +68,13 @@ public class GetClothesController {
         jsons_for_shuffle.add(temp_new_yorker);
 
         return controller_shuffle.shuffle_and_divide(jsons_for_shuffle);
+    }
+
+    @GetMapping("/similar")
+    public Object getClothesSimilar(
+            @RequestParam(defaultValue = "standard") long id
+    ) throws IOException, InterruptedException {
+        System.out.println("got here + id: " + id);
+        return service_similar.getSimilar(id);
     }
 }

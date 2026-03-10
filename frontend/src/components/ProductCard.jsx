@@ -175,9 +175,9 @@ export default function ProductCard ({ id, name, price, size, img_display, img_a
                             height: "100%",
                             overflow: "hidden",
                             borderRadius: 2,
-                            border: "1px solid",
-                            borderColor: theme.palette.custom.themeBlue_,
-                            backgroundColor: theme.palette.custom.themeBlue_,
+                            // border: "1px solid",
+                            // borderColor: theme.palette.custom.themeBlue_,
+                            // backgroundColor: theme.palette.custom.themeBlue_,
                             backdropFilter: 'blur(1px)',
                             WebkitBackdropFilter: 'blur(1px)',
                             "& .swiper-pagination-fraction": {

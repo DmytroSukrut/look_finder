@@ -61,5 +61,9 @@ public class PositionEntity {
     @Column(name = "photo_3", nullable = false)
     private String photo3;
 
+    @Column(name = "embedding", columnDefinition = "vector(384)", insertable = false, updatable = false)
+    private String embedding;
 
+    @Column(name = "embedding_text", insertable = false, updatable = false)
+    private String embeddingText;
 }

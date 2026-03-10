@@ -1,0 +1,9 @@
+ALTER TABLE user_information
+    ADD COLUMN IF NOT EXISTS sex TEXT;
+
+ALTER TABLE user_information
+    ALTER COLUMN favourite SET NOT NULL,
+    ALTER COLUMN bust SET NOT NULL,
+    ALTER COLUMN waist SET NOT NULL,
+    ALTER COLUMN hip SET NOT NULL,
+    ALTER COLUMN sex SET NOT NULL;
