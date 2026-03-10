@@ -10,8 +10,6 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - appnet
-    ports:
-      - "5432:5432"
     restart: unless-stopped
 
   backend:
