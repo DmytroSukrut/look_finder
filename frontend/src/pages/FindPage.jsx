@@ -162,8 +162,8 @@ export default function FindPage(){
 
             }
 
-            console.log(error.origin);  // Например, вывести значение поля origin
-            console.log(error.error);   // Или вывести значение поля error
+            console.log(error.origin);
+            console.log(error.error);
         }
     }
 

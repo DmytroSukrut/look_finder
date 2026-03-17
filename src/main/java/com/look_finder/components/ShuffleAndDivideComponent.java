@@ -14,24 +14,28 @@ public class ShuffleAndDivideComponent {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public Object shuffle_and_divide(List<List<Map<String, Object>>> unprepared_) throws IOException {
+    public Object shuffle_and_divide(List<List<Map<String, Object>>> unprepared_,
+                                     String caller,
+                                     List<Map<String, Object>> key_list) throws IOException {
 
         JsonNode root = mapper.valueToTree(unprepared_);
 
         List<Map<String, Object>> error_list = new ArrayList<>();
         List<String> errors_origin_list = new ArrayList<>();
 
-        for (JsonNode jsons_from_shops : root) {
-            Map<String, Object> error = new HashMap<>();
-            String origin = jsons_from_shops.get(0).get("origin").asText();
-            String error_ = jsons_from_shops.get(0).get("error").asText();
+        if (!Objects.equals(caller, "similar")) {
+            for (JsonNode jsons_from_shops : root) {
+                Map<String, Object> error = new HashMap<>();
+                String origin = jsons_from_shops.get(0).get("origin").asText();
+                String error_ = jsons_from_shops.get(0).get("error").asText();
 
-            if(!errors_origin_list.contains(origin)) {
-                error.put("origin", origin);
-                error.put("error", error_);
-                error_list.add(error);
+                if (!errors_origin_list.contains(origin)) {
+                    error.put("origin", origin);
+                    error.put("error", error_);
+                    error_list.add(error);
 
-                errors_origin_list.add(origin);
+                    errors_origin_list.add(origin);
+                }
             }
         }
 
@@ -141,7 +145,8 @@ public class ShuffleAndDivideComponent {
         }
 
         Map<String, Object> result = new HashMap<>();
-        result.put("errors", error_list);
+        if(!Objects.equals(caller, "similar")) result.put("errors", error_list);
+        if(Objects.equals(caller, "similar")) result.put("key_list", key_list);
         result.put("products", divided_json);
 
         Path jsonDir = Path.of("src/main/resources/json");

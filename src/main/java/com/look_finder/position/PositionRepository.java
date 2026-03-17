@@ -12,6 +12,23 @@ public interface PositionRepository extends JpaRepository<PositionEntity, Long> 
 
     List<PositionEntity> findByCategoryAndSexAndSize(String category, String sex, String size);
 
+    @Query(value = """
+    select *
+    from current_available_products
+    where size = :sizeD or size = :sizeS
+        and sex = :sex
+    order by random()
+    limit 1
+    """, nativeQuery = true)
+    PositionEntity findRandom(@Param("sizeD")String sizeD, @Param("sizeS")String sizeS, @Param("sex") String sex);
+
+    @Query(value = """
+            select *
+            from current_available_products
+            where embedding = cast(:embedding as vector)
+        """, nativeQuery = true)
+    PositionEntity findByEmbedding(@Param("embedding") String embedding);
+
     @Modifying
     @Transactional
     @Query(value = """
@@ -30,9 +47,11 @@ public interface PositionRepository extends JpaRepository<PositionEntity, Long> 
         where embedding is not null
             and size = :size
             and sex = :sex
+            and text_id <> all(cast(:ids as text[]))
         order by embedding <=> cast(:queryEmbedding as vector)
     """, nativeQuery = true)
     List<PositionEntity> findSimilarProducts(@Param("queryEmbedding") String queryEmbedding,
                                              @Param("size") String size,
-                                             @Param("sex") String sex);
+                                             @Param("sex") String sex,
+                                             @Param("ids") String[] ids);
 }

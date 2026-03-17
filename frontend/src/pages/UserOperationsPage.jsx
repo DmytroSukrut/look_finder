@@ -49,6 +49,15 @@ export default function UserOperationsPage() {
                 email: result.email,
                 name: result.name,
                 surname: result.surname,
+                favourite1_text_id: result.favourite1_text_id,
+                favourite2_text_id: result.favourite2_text_id,
+                favourite3_text_id: result.favourite3_text_id,
+                favourite4_text_id: result.favourite4_text_id,
+                favourite5_text_id: result.favourite5_text_id,
+                bust: result.bust,
+                waist: result.waist,
+                hip: result.hip,
+                sex: result.sex
             }
 
             localStorage.setItem("user", JSON.stringify(save));

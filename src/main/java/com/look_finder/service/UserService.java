@@ -1,9 +1,12 @@
 package com.look_finder.service;
 
+import com.look_finder.DTO.AllUserInformationDTO;
 import com.look_finder.DTO.UserDTO;
 import com.look_finder.errors.AppException;
 import com.look_finder.errors.EmailAlreadyExistsException;
 import com.look_finder.errors.UserIsntRegistratedException;
+import com.look_finder.position.PositionEntity;
+import com.look_finder.position.PositionRepository;
 import com.look_finder.user.UserEntity;
 import com.look_finder.user.UserInformationEntity;
 import com.look_finder.user.UserInformationRepository;
@@ -19,8 +22,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserInformationRepository userInformationRepository;
     private final PasswordService passwordService;
+    private final PositionRepository positionRepository;
 
-    public UserDTO saveUser(
+    public AllUserInformationDTO saveUser(
             String name,
             String surname,
             String email,
@@ -47,14 +51,35 @@ public class UserService {
         information.setHip("0");
         information.setSex("f");
 
+        PositionEntity position = positionRepository.findRandom("36", "XS", "f");
+
+        information.setFavourite1TextId(position.getText_id());
+
         userInformationRepository.save(information);
 
-        userInformationRepository.updateFavourite(user.getId(), "[0.08301808,0.05585837,0.017100938,-0.015448768,0.016344624,0.05176565,0.052842107,-0.05272174,-0.10755621,-0.025145203,0.05384513,-0.067707054,0.02191829,-0.057944287,0.057377234,0.06281077,0.079483554,-0.007969887,-0.042518675,-0.015453645,-0.035900045,-0.036063217,0.015959878,-0.025046509,-0.084269375,-0.12794161,0.014869115,0.061491992,-0.07433774,-0.11308323,-0.0054316763,0.11062834,-0.007743196,0.04962707,-0.037247043,0.010554577,0.014077205,-0.0032487754,-0.067164056,0.016514406,-0.021351436,-0.054646827,0.0068240105,0.01245545,0.028136266,0.06263018,-0.0209434,0.048128314,-0.04301781,-0.029656785,0.08079618,-0.0009019586,-0.040609732,-0.01820926,-0.018933307,-0.015125349,-0.050027635,-0.050417688,0.025912179,-0.028729094,0.019254781,0.089470126,-0.06455777,0.018282628,-0.044204783,-0.023095878,-0.0035228909,0.043537438,-0.10271254,0.086856,-0.026760617,-0.038044877,-0.10167896,-0.00026573133,0.017502114,0.021231994,0.05587566,0.027259503,-0.015777865,-0.055064935,-0.00520235,-0.027710523,-0.012569089,0.028375627,-0.004717429,-0.044191796,-0.08361486,-0.010676876,-0.033960246,-0.023478374,-0.015765382,-0.052956857,-0.06020692,0.050053548,-0.007118701,0.017391508,-0.103007205,-0.10007516,0.06941152,0.09112774,0.0076505668,-0.004305108,0.1007521,0.0905929,-0.05645105,-0.044373576,0.052710515,0.122869365,0.03914784,-0.028293405,-0.11776967,0.065449536,-0.030719468,0.05919591,-0.041839924,-0.08534166,0.0069965143,-0.036757015,0.07923403,0.063430004,-0.0063389484,0.06552381,0.004502633,-0.034049578,0.022584975,0.037776586,-0.037551712,0.059557747,-0.03330133,-0.022461435,0.053900573,0.08039588,-0.020709869,-0.00690073,0.066690855,-0.033988353,-0.030149342,0.051799204,0.007054197,-0.03599061,0.012974745,0.0257171,0.11170284,0.12457314,0.013325949,-0.038132343,-0.11804917,0.012927725,-0.06093179,0.042851932,-0.0050973757,-0.085671976,-0.013361191,0.016303647,-0.0379952,0.03443977,0.07635439,-0.026927866,0.057009947,0.015922245,0.060783863,0.008586245,-0.055497102,0.029870205,-0.05766412,-0.028180448,0.0018380354,-0.048481215,0.022927118,-0.007631893,0.052161973,0.046522036,-0.020138266,0.06918791,0.05748755,0.019492792,0.035756323,0.018236196,-0.050081976,0.01604538,0.019987416,-0.0743553,-0.06909385,0.035413213,0.021239655,0.026571639,-0.03257041,0.04647977,0.02886661,0.020285001,0.02861922,-0.12022629,0.0062053646,-0.053954206,-0.009847515,0.031718552,-0.004149421,0.024038516,-0.016332312,-0.08495499,0.082924284,0.05015592,0.05287887,-0.03234902,-0.049547937,0.068657115,0.08636171,-0.06427403,0.028648032,0.099203505,-0.012026539,-0.016112901,-0.04996005,-0.031523414,0.03301255,-0.022197595,0.048595298,-0.026824009,-0.041587077,0.00011148688,-0.06623887,0.0038240633,-0.052471913,-0.04012986,-0.012768673,0.09472282,-0.01668058,0.042412225,0.03598184,0.009770646,0.013707545,0.058168948,-0.02961429,0.057433058,0.14362986,-0.050099686,0.022257293,-0.06449549,-0.04655672,0.07949773,-0.0009739066,0.018372398,-0.03370446,0.01730587,0.032296196,-0.031421583,0.09308844,-0.009708969,-0.040600017,0.07962567,0.0697998,0.010452668,-0.016955674,0.07921332,-0.042723753,0.008667617,0.018882671,0.079591684,0.041280102,-0.081710316,-0.088597424,0.0067816917,0.07713488,0.007856297,0.033340994,0.007299188,0.032952033,-0.07390625,0.050981514,-0.018383833,-0.064192146,0.019149493,-0.04767307,-0.039331045,-0.05519704,0.02223428,-0.01342653,0.013048172,0.045592867,-0.04141483,-0.025971385,-0.011457562,0.07240563,0.036069293,-0.049868386,0.10380149,0.034468267,-0.027944472,-0.022580642,0.00011472476,0.05914571,-0.025818646,-0.014326463,-0.008905636,-0.07412497,0.02402756,0.030383736,0.0198634,-0.07643087,0.013403021,0.07610829,0.020910919,-0.010605287,0.0043492885,-0.0151255755,-0.054025568,-0.034486346,0.024904383,0.0453493,0.057122428,-0.05774059,0.055276044,0.03644999,0.004130913,0.023645027,-0.024720052,0.0018928427,0.031583544,-0.043681614,-0.027119061,0.0205512,-0.0063663647,-0.03649927,0.016087493,-0.10937713,-0.008586003,-0.049609568,-0.0051469095,-0.042447384,0.044094667,-0.04980896,-0.026583672,-0.07607456,0.04306622,-0.028447952,0.020924242,-0.006979464,0.031703148,0.012032447,0.02938228,-0.10034355,-0.007462652,0.0024614837,0.03732147,0.0015143324,-0.042372543,-0.15925226,-0.06605258,0.05775415,-0.04012593,0.055691242,0.058450714,-0.051980883,-0.010235222,0.0063957907,0.016027715,-0.042351265,0.007221441,-0.025771525,0.08996592,0.029712236,-0.14474244,0.031756986,0.031248206,0.13922024,-0.060922265,0.02806286,-0.012214128,-0.11996572,0.03354265,0.011210784,-0.028469423,0.004174579,-0.020017764,-0.016039055,-0.05840294,-0.05529062,-0.009658923,0.031605482,0.021286998,0.0075316885,-0.051949594,-0.045215502,0.03862317]");
+        userInformationRepository.updateFavourite1(user.getId(), position.getEmbedding());
 
-        return userRepository.findByEmail(email);
+        UserDTO userDTO = userRepository.findByEmail(email);
+        UserInformationEntity userInformationEntity = userInformationRepository.findByUserId(userDTO.getId());
+
+        return new AllUserInformationDTO(
+                userDTO.getId(),
+                userDTO.getName(),
+                userDTO.getSurname(),
+                userDTO.getEmail(),
+                userInformationEntity.getFavourite1TextId(),
+                userInformationEntity.getFavourite2TextId(),
+                userInformationEntity.getFavourite3TextId(),
+                userInformationEntity.getFavourite4TextId(),
+                userInformationEntity.getFavourite5TextId(),
+                userInformationEntity.getBust(),
+                userInformationEntity.getWaist(),
+                userInformationEntity.getHip(),
+                userInformationEntity.getSex()
+                );
     }
 
-    public UserDTO loginUser(String email, String password) {
+    public AllUserInformationDTO loginUser(String email, String password) {
         if (!userRepository.existsByEmail(email)) {
             throw new UserIsntRegistratedException();
         }
@@ -63,7 +88,24 @@ public class UserService {
                 .orElseThrow(() -> new UserIsntRegistratedException());
 
         if (passwordService.comparePasswords(password, encodedPassword)) {
-            return userRepository.findByEmail(email);
+            UserDTO userDTO = userRepository.findByEmail(email);
+            UserInformationEntity userInformationEntity = userInformationRepository.findByUserId(userDTO.getId());
+
+            return new AllUserInformationDTO(
+                    userDTO.getId(),
+                    userDTO.getName(),
+                    userDTO.getSurname(),
+                    userDTO.getEmail(),
+                    userInformationEntity.getFavourite1TextId(),
+                    userInformationEntity.getFavourite2TextId(),
+                    userInformationEntity.getFavourite3TextId(),
+                    userInformationEntity.getFavourite4TextId(),
+                    userInformationEntity.getFavourite5TextId(),
+                    userInformationEntity.getBust(),
+                    userInformationEntity.getWaist(),
+                    userInformationEntity.getHip(),
+                    userInformationEntity.getSex()
+            );
         } else {
             throw new AppException("PASSWORD_OR_EMAIL_ERROR", "Wrong password or email adres");
         }

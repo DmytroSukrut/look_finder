@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { ThemeProvider, CssBaseline } from '@mui/material'
-import { BrowserRouter, Routes, Route } from "react-router";
+import {BrowserRouter, Routes, Route, Navigate} from "react-router";
 import './index.css'
 import MainPage from './pages/MainPage.jsx'
 import FindPage from './pages/FindPage.jsx'
@@ -15,7 +15,8 @@ createRoot(document.getElementById('root')).render(
             <CssBaseline />
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<MainPage />} />
+                    <Route path="/" element={<Navigate to={"/main?page=1"} replace/>}/>
+                    <Route path="/main" element={<MainPage />} />
                     <Route path="/find/:cat" element={<FindPage />} />
                     <Route path="/favorites" element={<FavoritePage />} />
                     <Route path="/user_operations" element={<UserOperationsPage />} />

@@ -17,8 +17,35 @@ public class UserInformationEntity {
     @Column(name = "user_id", insertable = true)
     private Long userId;
 
-    @Column(name = "favourite", nullable = false, columnDefinition = "vector(384)", insertable = false, updatable = false)
-    private String favourite;
+    @Column(name = "favourite1", nullable = false, columnDefinition = "vector(384)", insertable = false, updatable = false)
+    private String favourite1;
+
+    @Column(name = "favourite1_text_id")
+    private String favourite1TextId;
+
+    @Column(name = "favourite2", nullable = false, columnDefinition = "vector(384)", insertable = false, updatable = false)
+    private String favourite2;
+
+    @Column(name = "favourite2_text_id")
+    private String favourite2TextId;
+
+    @Column(name = "favourite3", nullable = false, columnDefinition = "vector(384)", insertable = false, updatable = false)
+    private String favourite3;
+
+    @Column(name = "favourite3_text_id")
+    private String favourite3TextId;
+
+    @Column(name = "favourite4", nullable = false, columnDefinition = "vector(384)", insertable = false, updatable = false)
+    private String favourite4;
+
+    @Column(name = "favourite4_text_id")
+    private String favourite4TextId;
+
+    @Column(name = "favourite5", nullable = false, columnDefinition = "vector(384)", insertable = false, updatable = false)
+    private String favourite5;
+
+    @Column(name = "favourite5_text_id")
+    private String favourite5TextId;
 
     @Column(name = "bust", nullable = false)
     private String bust;

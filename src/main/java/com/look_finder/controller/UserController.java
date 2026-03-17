@@ -1,5 +1,6 @@
 package com.look_finder.controller;
 
+import com.look_finder.DTO.AllUserInformationDTO;
 import com.look_finder.DTO.LoginDTO;
 import com.look_finder.DTO.RegisterDTO;
 import com.look_finder.DTO.UserDTO;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public UserDTO registerUser(
+    public AllUserInformationDTO registerUser(
             @RequestBody @Valid RegisterDTO registerDTO
     ) {
         return userService.saveUser(
@@ -32,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public UserDTO login(
+    public AllUserInformationDTO login(
             @RequestBody @Valid LoginDTO loginDTO
     ){
        return userService.loginUser(

@@ -67,7 +67,7 @@ public class GetClothesController {
 
         jsons_for_shuffle.add(temp_new_yorker);
 
-        return controller_shuffle.shuffle_and_divide(jsons_for_shuffle);
+        return controller_shuffle.shuffle_and_divide(jsons_for_shuffle, "get_clothes", null);
     }
 
     @GetMapping("/similar")

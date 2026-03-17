@@ -30,9 +30,17 @@ export const NavBar = () => {
         url_params.set("bust", params.bust);
         url_params.set("waist", params.waist);
         url_params.set("hip", params.hip);
-        url_params.set("page", 1);
+        url_params.set("page", String(1));
 
         return `/find/${encodeURIComponent(params.cat)}?${url_params.toString()}`;
+    }
+
+    const build_link_to_main = (params) => {
+        const url_params = new URLSearchParams();
+
+        url_params.set("page", String(params.page));
+
+        return `/main?${url_params.toString()}`;
     }
 
     const latest_search = {
@@ -41,6 +49,10 @@ export const NavBar = () => {
         bust: "91",
         waist: "69",
         hip: "97"
+    }
+
+    const main_params = {
+        page: 1
     }
 
     return (
@@ -88,7 +100,7 @@ export const NavBar = () => {
                                 }
                             }}
                             component={Link}
-                            to="/"
+                            to={build_link_to_main(main_params)}
                         >
                             Main page
                         </Button>
