@@ -11,7 +11,7 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import {useState} from "react";
 import * as React from "react";
 
-export default function ProductCard ({ id, name, price, size, img_display, img_all,  isFavourite, brandName}){
+export default function ProductCard ({ id, name, price, size, img_display, img_all,  isFavourite, brandName, bust, waist, hip}){
     const theme = useTheme();
     const [isFav, setIsFav] = useState(isFavourite);
 
@@ -292,14 +292,20 @@ export default function ProductCard ({ id, name, price, size, img_display, img_a
                                     <Typography variant="h6" sx={{ mt: 1, fontWeight: 300 }}>
                                         Bust:{" "}
                                         <Box component="span" sx={{ fontWeight: 400 }}>
-                                            91
+                                            {bust}
                                         </Box>
                                     </Typography>
                                     <Typography variant="h6" sx={{ mt: 1, fontWeight: 300 }}>
-                                        Waist: 69
+                                        Waist:{" "}
+                                        <Box component="span" sx={{ fontWeight: 400 }}>
+                                            {waist}
+                                        </Box>
                                     </Typography>
                                     <Typography variant="h6" sx={{ mt: 1, fontWeight: 300 }}>
-                                        Hip: 97
+                                        Hip:{" "}
+                                        <Box component="span" sx={{ fontWeight: 400 }}>
+                                            {hip}
+                                        </Box>
                                     </Typography>
                                 </Box>
                                 <Box sx={{flexGrow: 1}}/>

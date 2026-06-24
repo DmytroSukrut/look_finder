@@ -18,6 +18,10 @@ export default function FindPage(){
 
     const [products, setProducts] = useState([]);
 
+    const [bust, setBust] = useState("");
+    const [waist, setWaist] = useState("");
+    const [hip, setHip] = useState("");
+
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -36,7 +40,8 @@ export default function FindPage(){
     const [max_pages, setMaxPage] = useState(1);
 
     useEffect(() => {
-        console.log("data: " + data);
+        console.log("params: ", params.toString());
+        console.log("data:", data);
         console.log("page: " + params.get("page"));
         console.log("page const: " + page);
 
@@ -44,11 +49,14 @@ export default function FindPage(){
 
         const product_category = data.clothesType
         const sex = data.sex
-        const bust = data.bust
-        const waist = data.waist
-        const hip = data.hip
+        setBust(data.bust);
+        setWaist(data.waist);
+        setHip(data.hip);
+        const bust_ = data.bust;
+        const waist_ = data.waist;
+        const hip_ = data.hip;
 
-        const key = `${product_category}_${sex}_${bust}_${waist}_${hip}`
+        const key = `${product_category}_${sex}_${bust_}_${waist_}_${hip_}`
 
         async function load() {
 
@@ -83,7 +91,11 @@ export default function FindPage(){
             if ((saved_data && (Math.floor(Date.now() / 1000) - saved_data.timestamp < JSON_LIFETIME)) || (saved_data && currentPage !== 1)) {
                 setCurrentPageData(saved_data.data, currentPage);
             } else {
-                const data_fetched = await fetch_clothes(product_category, sex, bust, waist, hip);
+                console.log(bust_);
+                console.log(waist_);
+                console.log(hip_);
+
+                const data_fetched = await fetch_clothes(product_category, sex, bust_, waist_, hip_);
 
                 if (data_fetched.error && saved_data){
                     setCurrentPageData(saved_data.data, currentPage);
@@ -114,7 +126,7 @@ export default function FindPage(){
 
     async function fetch_clothes(category, sex, bust, waist, hip) {
         const url_to_fetch =
-            `/api/clothes/filter?category=${encodeURIComponent(category)}&sex=${encodeURIComponent(sex)}&bust=${encodeURIComponent(bust)}&waist=${encodeURIComponent(waist)}&hip=${encodeURIComponent(hip)}`;
+            `/api/clothes/filter?category=${encodeURIComponent(category)}&sex=${encodeURIComponent(sex)}&bust=${encodeURIComponent(Number(bust))}&waist=${encodeURIComponent(Number(waist))}&hip=${encodeURIComponent(Number(hip))}`;
 
         try {
             const controller = new AbortController();
@@ -338,6 +350,9 @@ export default function FindPage(){
           <ProductGrid
               products={products}
               title={"Special for you"}
+              bust={bust}
+              waist={waist}
+              hip={hip}
           />
           <PaginationComponent
               current_page={page}

@@ -32,10 +32,6 @@ public class GetClothesController {
         this.controller_shuffle = controller_shuffle;
     }
 
-    /**
-     * Creating here our endpoint for bershka
-     * @return Fully parsed bershka JSON
-     * */
     @GetMapping("/filter")
     public Object getClothes(
             @RequestParam String category,
@@ -74,7 +70,6 @@ public class GetClothesController {
     public Object getClothesSimilar(
             @RequestParam(defaultValue = "standard") long id
     ) throws IOException, InterruptedException {
-        System.out.println("got here + id: " + id);
         return service_similar.getSimilar(id);
     }
 }

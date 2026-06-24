@@ -169,7 +169,7 @@ public class BershkaService {
 
         }
 
-        return "put";
+        return "done";
     }
 
     private List<String> getSizes(String orientation, String sex){

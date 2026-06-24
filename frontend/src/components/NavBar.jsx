@@ -23,17 +23,30 @@ export const NavBar = () => {
         navigate("/user_operations");
     }
 
-    const build_link_to_find = (params) => {
+    const backup_search = {
+        cat: "jeans",
+        sex: "f",
+        bust: "91",
+        waist: "69",
+        hip: "97",
+    };
+
+    const build_link_to_find = () => {
         const url_params = new URLSearchParams();
 
-        url_params.set("sex", params.sex);
-        url_params.set("bust", params.bust);
-        url_params.set("waist", params.waist);
-        url_params.set("hip", params.hip);
+        const savedSearch = localStorage.getItem("last_search");
+
+        const latestSearch =
+            savedSearch === null ? backup_search : JSON.parse(savedSearch);
+
+        url_params.set("sex", latestSearch.sex);
+        url_params.set("bust", latestSearch.bust);
+        url_params.set("waist", latestSearch.waist);
+        url_params.set("hip", latestSearch.hip);
         url_params.set("page", String(1));
 
-        return `/find/${encodeURIComponent(params.cat)}?${url_params.toString()}`;
-    }
+        return `/find/${encodeURIComponent(latestSearch.cat)}?${url_params.toString()}`;
+    };
 
     const build_link_to_main = (params) => {
         const url_params = new URLSearchParams();
@@ -41,14 +54,6 @@ export const NavBar = () => {
         url_params.set("page", String(params.page));
 
         return `/main?${url_params.toString()}`;
-    }
-
-    const latest_search = {
-        cat: "jeans",
-        sex: "f",
-        bust: "91",
-        waist: "69",
-        hip: "97"
     }
 
     const main_params = {
@@ -117,7 +122,7 @@ export const NavBar = () => {
                                 }
                             }}
                             component={Link}
-                            to = {build_link_to_find(latest_search)}
+                            to = {build_link_to_find()}
                         >
                             Find clothes
                         </Button>

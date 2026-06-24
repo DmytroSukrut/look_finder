@@ -3,7 +3,7 @@ import {useState} from "react";
 import {useNavigate} from "react-router";
 
 // const ACCOUNT_LIFETIME = 24 * 60 * 60;
-const ACCONT_LIFETIME = 1;
+const ACCOUNT_LIFETIME = 1;
 
 export default function UserOperationsPage() {
     const theme = useTheme();

@@ -3,7 +3,7 @@ import {Pagination, Navigation} from 'swiper/modules'
 import ProductCard from "./ProductCard";
 import * as React from "react";
 
-export default function ProductGrid({ products = [], title = "Special for you"}) {
+export default function ProductGrid({ products = [], title = "Special for you", bust, waist, hip}) {
     const theme = useTheme();
 
     const [open_, setOpen_] = React.useState(false);
@@ -51,6 +51,9 @@ export default function ProductGrid({ products = [], title = "Special for you"})
                                     isFavourite={true}
                                     brandName={product.origin}
                                     setOpen_={setOpen_}
+                                    bust={bust}
+                                    waist={waist}
+                                    hip={hip}
                                 />
                             </Grid>
                         );
