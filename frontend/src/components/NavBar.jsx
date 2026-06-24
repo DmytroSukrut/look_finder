@@ -36,6 +36,9 @@ export const NavBar = () => {
 
         const savedSearch = localStorage.getItem("last_search");
 
+        console.log("savedSearch:", savedSearch);
+        console.log("localStorage:", localStorage.getItem("last_search"));
+
         const latestSearch =
             savedSearch === null ? backup_search : JSON.parse(savedSearch);
 
